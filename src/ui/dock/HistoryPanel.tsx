@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { SearchIcon, XIcon } from '@primer/octicons-react';
 import type { HistoryEntry } from '@/core/history';
 import {
@@ -26,6 +26,18 @@ export interface HistoryPanelProps {
   headingId?: string;
 }
 
+/** How many entries to reveal per repository group at a time. */
+const PAGE_SIZE = 5;
+
+/** Deterministic hue (0–359) for a repository, so each gets a stable tint. */
+function repoHue(name: string): number {
+  let hash = 0;
+  for (let i = 0; i < name.length; i += 1) {
+    hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
+  }
+  return hash % 360;
+}
+
 export function HistoryPanel({
   currentKey,
   linkTarget,
@@ -35,7 +47,12 @@ export function HistoryPanel({
 }: HistoryPanelProps): ReactNode {
   const { entries, ownedKeys } = useGitHubHistory(importBrowserHistory);
   const [query, setQuery] = useState('');
+  const [shownByGroup, setShownByGroup] = useState<Record<string, number>>({});
   const now = Date.now();
+
+  const shownFor = (key: string): number => shownByGroup[key] ?? PAGE_SIZE;
+  const showMore = (key: string): void =>
+    setShownByGroup((current) => ({ ...current, [key]: (current[key] ?? PAGE_SIZE) + PAGE_SIZE }));
 
   const filtered = useMemo(() => searchEntries(entries, query), [entries, query]);
   const pinned = useMemo(
@@ -124,15 +141,29 @@ export function HistoryPanel({
             <ul className="rd-hist__list">{pinned.map(renderEntry)}</ul>
           </div>
         )}
-        {groups.map((group) => (
-          <div className="rd-hist__section" key={group.key}>
-            <h3 className="rd-hist__section-title">
-              {group.label}
-              <span className="rd-hist__section-count">{group.entries.length}</span>
-            </h3>
-            <ul className="rd-hist__list">{group.entries.map(renderEntry)}</ul>
-          </div>
-        ))}
+        {groups.map((group) => {
+          const limit = shownFor(group.key);
+          const visible = group.entries.slice(0, limit);
+          const remaining = group.entries.length - visible.length;
+          return (
+            <div
+              className="rd-hist__section rd-hist__section--repo"
+              key={group.key}
+              style={{ '--rd-repo-hue': repoHue(group.label) } as CSSProperties}
+            >
+              <h3 className="rd-hist__section-title">
+                <span className="rd-hist__section-label">{group.label}</span>
+                <span className="rd-hist__section-count">{group.entries.length}</span>
+              </h3>
+              <ul className="rd-hist__list">{visible.map(renderEntry)}</ul>
+              {remaining > 0 && (
+                <button type="button" className="rd-hist__more" onClick={() => showMore(group.key)}>
+                  {t('history.showMore', Math.min(PAGE_SIZE, remaining))}
+                </button>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {hasAny && (

@@ -55,6 +55,7 @@ export const en = {
   'history.collapse': 'Collapse recent pages',
   'history.visitsOne': '{0} visit',
   'history.visitsMany': '{0} visits',
+  'history.showMore': 'Show {0} more',
   'history.confirmClearAll': 'Clear all history, including pinned pages?',
 
   'position.right': 'Right',

@@ -75,6 +75,25 @@ describe('HistoryPanel', () => {
     await waitFor(async () => expect((await getHistory()).entries).toHaveLength(0));
   });
 
+  it('limits each repo to 5 entries and reveals more on demand', async () => {
+    await seed(
+      Array.from({ length: 7 }, (_, i) =>
+        entry({ key: `/o/r/${i}`, title: `page ${i}`, nwo: 'o/r', lastVisited: 100 - i }),
+      ),
+    );
+    const user = userEvent.setup();
+    render(<HistoryPanel linkTarget="current" />);
+    await waitFor(() => expect(screen.getByText('page 0')).toBeInTheDocument());
+
+    // Only the 5 most recent are shown initially.
+    expect(screen.getByText('page 4')).toBeInTheDocument();
+    expect(screen.queryByText('page 5')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Show 2 more' }));
+    expect(screen.getByText('page 5')).toBeInTheDocument();
+    expect(screen.getByText('page 6')).toBeInTheDocument();
+  });
+
   it('shows an empty state', async () => {
     await seed([]);
     render(<HistoryPanel linkTarget="current" />);

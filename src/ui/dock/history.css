@@ -65,10 +65,17 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--rd-fg-muted);
+  /* The repo name row pins to the top while scrolling its group. */
   position: sticky;
   top: 0;
   background: var(--rd-overlay-bg);
   z-index: 1;
+}
+.rd-hist__section-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 .rd-hist__section-count {
   flex-shrink: 0;
@@ -78,6 +85,50 @@
   color: var(--rd-fg-muted);
   font-size: 10px;
   letter-spacing: 0;
+}
+
+/* Each repository group gets a deterministic tint (--rd-repo-hue, set inline). */
+.rd-hist__section--repo {
+  --rd-repo-hue: 210;
+  margin: var(--rd-space-2) 0;
+  border-left: 3px solid hsl(var(--rd-repo-hue), 55%, 72%);
+  background: hsl(var(--rd-repo-hue), 70%, 97%);
+}
+.rd-hist__section--repo .rd-hist__section-title {
+  margin: 0;
+  padding: var(--rd-space-1) var(--rd-space-2);
+  background: hsl(var(--rd-repo-hue), 70%, 93%);
+  color: hsl(var(--rd-repo-hue), 32%, 32%);
+}
+.rd-root[data-rd-theme='dark'] .rd-hist__section--repo {
+  border-left-color: hsl(var(--rd-repo-hue), 45%, 46%);
+  background: hsl(var(--rd-repo-hue), 28%, 13%);
+}
+.rd-root[data-rd-theme='dark'] .rd-hist__section--repo .rd-hist__section-title {
+  background: hsl(var(--rd-repo-hue), 30%, 17%);
+  color: hsl(var(--rd-repo-hue), 35%, 78%);
+}
+
+/* "Show N more" within a group. */
+.rd-hist__more {
+  display: block;
+  width: calc(100% - 2 * var(--rd-space-2));
+  margin: 2px var(--rd-space-2) var(--rd-space-1);
+  padding: 4px;
+  border: 0;
+  border-radius: var(--rd-radius-sm);
+  background: transparent;
+  color: var(--rd-accent-fg);
+  font-family: var(--rd-font);
+  font-size: var(--rd-font-size-sm);
+  cursor: pointer;
+}
+.rd-hist__more:hover {
+  background: var(--rd-neutral-muted);
+}
+.rd-hist__more:focus-visible {
+  outline: 2px solid var(--rd-accent-fg);
+  outline-offset: -1px;
 }
 .rd-hist__list {
   list-style: none;

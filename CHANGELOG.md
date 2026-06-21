@@ -29,8 +29,12 @@ Initial release.
   deduplicated, stabilized recording merged with an optional, read-only import of
   the browser's github.com history (`history` permission, toggleable). The list
   is grouped by repository and sorted newest-first, with search, pinning,
-  trimming, and clear actions. See
+  trimming, and clear actions. Each repository group is color-tinted, keeps its
+  name pinned while scrolling, and reveals five pages at a time on demand. See
   [ADR-7](docs/adr/0007-import-browser-github-history.md).
+- Configurable repository-section quick-nav buttons (Code, Issues, Pull requests,
+  Actions, Projects, Wiki, Discussions, Security, Insights, Releases, Settings)
+  in the dock, with the current section highlighted; all shown by default.
 - Toolbar popup with quick toggles and a context preview, plus a full options
   page with appearance, behavior, history, shortcuts, advanced, and data
   controls.
