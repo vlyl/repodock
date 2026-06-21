@@ -1,6 +1,7 @@
 import type { StorageItemKey } from '#imports';
 import type { GitHubContext } from '../context/types';
 import { getSettings } from '../settings/store';
+import { rememberViewerLogin } from '../viewer';
 import { PersistentValue } from '../storage/persistent-value';
 import { historyStateSchema } from './schema';
 import { clearUnpinned, recordVisit, removeEntry, setPinned } from './operations';
@@ -29,6 +30,9 @@ export async function recordContext(
   ctx: GitHubContext,
   now: number = Date.now(),
 ): Promise<HistoryState> {
+  // Remember who is browsing (for the "involved" filter) regardless of whether
+  // page recording is enabled — this stores only the login, nothing page-specific.
+  void rememberViewerLogin(ctx.viewer?.login);
   const settings = await getSettings();
   if (!settings.recordHistory) return historyStore.get();
   return historyStore.update((state) => recordVisit(state, ctx, now, settings.historyLimit));

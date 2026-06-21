@@ -53,6 +53,8 @@ export interface Settings {
    * list. Requires the `history` permission.
    */
   importBrowserHistory: boolean;
+  /** Whether the recent list is filtered to pages the viewer is involved with. */
+  historyInvolvedOnly: boolean;
   /** Maximum number of unpinned history entries to retain. */
   historyLimit: number;
   /** Theme resolution mode. */
@@ -73,6 +75,7 @@ export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({
   visible: true,
   recordHistory: true,
   importBrowserHistory: true,
+  historyInvolvedOnly: false,
   historyLimit: HISTORY_LIMIT_DEFAULT,
   theme: 'system',
   historyLinkTarget: 'current',

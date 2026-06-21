@@ -14,6 +14,7 @@ function renderDock(overrides: Partial<Parameters<typeof Dock>[0]> = {}) {
     historyOpen: false,
     onToggleHistory: vi.fn(),
     onCloseHistory: vi.fn(),
+    onToggleInvolved: vi.fn(),
     ...overrides,
   };
   render(<Dock {...props} />);

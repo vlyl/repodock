@@ -33,6 +33,12 @@ export interface HistoryEntry {
   lastVisited: number;
   visitCount: number;
   pinned: boolean;
+  /**
+   * The viewer is involved with this page: they participated in its issue / PR /
+   * discussion, or it is in their own namespace. Captured when recorded; absent
+   * for entries recorded before this was tracked or imported from the browser.
+   */
+  involved?: boolean;
   /** The parser/context schema version that produced this entry. */
   parserVersion: number;
 }

@@ -15,6 +15,7 @@ export type {
   RepositoryRef,
   ResolveInput,
   ResolvedValue,
+  ViewerInfo,
 } from './types';
 export { CONTEXT_SCHEMA_VERSION } from './types';
 export { isRepoPage, locationLabelFor, LOCATION_LABELS } from './page-kind';
@@ -27,7 +28,7 @@ export {
 } from './github-url';
 export type { UrlFacts } from './github-url';
 export { resolveContext } from './resolve';
-export { extractDomFacts, cleanItemTitle } from './dom';
+export { extractDomFacts, cleanItemTitle, viewerIsParticipant, viewerLoginFromDom } from './dom';
 export type { DomFacts } from './dom';
 export { buildSegments, contextSummary, contextTitle, formatLineRange } from './present';
 export type { BuildSegmentsOptions, ContextSegment } from './present';

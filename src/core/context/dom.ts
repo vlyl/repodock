@@ -133,6 +133,50 @@ export function extractDomFacts(doc: Document): DomFacts {
   return facts;
 }
 
+/** The logged-in GitHub login, from the page meta tags GitHub renders. */
+export function viewerLoginFromDom(doc: Document): string | undefined {
+  return (
+    metaContent(doc, 'meta[name="user-login"]') ??
+    metaContent(doc, 'meta[name="octolytics-actor-login"]')
+  );
+}
+
+/**
+ * Containers that hold the issue / PR / discussion's people (author, assignees,
+ * reviewers, participants). We scope viewer-participation detection to these so
+ * the viewer's own avatar in GitHub's global header never counts as involvement.
+ */
+const VIEWER_SCOPE_SELECTOR = [
+  '#partial-users-participants',
+  '#partial-discussion-sidebar',
+  '.Layout-sidebar',
+  '[data-testid="issue-metadata-fixed"]',
+  '[data-testid="sidebar"]',
+  '[data-testid="discussion-sidebar"]',
+].join(',');
+
+/**
+ * Best-effort: does `login` appear as author, assignee, reviewer, or participant
+ * of the current issue / pull request / discussion? GitHub's markup differs
+ * between its classic and React UIs, so this is a heuristic scoped to the
+ * people-bearing sidebar containers and degrades to `false` when it can't tell.
+ */
+export function viewerIsParticipant(doc: Document, login: string): boolean {
+  const norm = login.toLowerCase();
+  for (const root of doc.querySelectorAll(VIEWER_SCOPE_SELECTOR)) {
+    for (const anchor of root.querySelectorAll('a[href]')) {
+      const match = /^\/([^/?#]+)(?:[/?#]|$)/.exec(anchor.getAttribute('href') ?? '');
+      const user = match?.[1];
+      if (user?.toLowerCase() === norm) return true;
+    }
+    for (const img of root.querySelectorAll('img[alt]')) {
+      const alt = (img.getAttribute('alt') ?? '').replace(/^@/, '').toLowerCase();
+      if (alt === norm) return true;
+    }
+  }
+  return false;
+}
+
 /**
  * Clean an Open Graph title down to the human-readable item title, dropping the
  * trailing " · Pull Request #N · owner/repo" decoration GitHub appends.

@@ -150,6 +150,19 @@
   color: var(--rd-fg-muted);
   font-size: var(--rd-font-size-sm);
 }
+.rd-hist__filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--rd-space-2);
+  padding: var(--rd-space-2) var(--rd-space-3);
+  border-top: 1px solid var(--rd-border-muted);
+}
+.rd-hist__filter-label {
+  font-size: var(--rd-font-size-sm);
+  color: var(--rd-fg-default);
+}
+
 .rd-hist__footer {
   display: flex;
   justify-content: space-between;

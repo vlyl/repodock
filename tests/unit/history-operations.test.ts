@@ -5,6 +5,7 @@ import {
   clearUnpinned,
   entryFromContext,
   groupByRepository,
+  isInvolvedEntry,
   mergeHistories,
   recordVisit,
   removeEntry,
@@ -14,6 +15,7 @@ import {
   trimUnpinned,
   upsertVisit,
 } from '@/core/history';
+import { makeDoc } from '../helpers/dom';
 
 function makeEntry(partial: Partial<HistoryEntry> & { key: string }): HistoryEntry {
   return {
@@ -164,5 +166,56 @@ describe('mergeHistories', () => {
     const merged = mergeHistories(owned, extra);
     expect(merged.map((e) => e.key).sort()).toEqual(['/x', '/y']);
     expect(merged.find((e) => e.key === '/x')!.title).toBe('owned');
+  });
+});
+
+describe('involvement', () => {
+  it('flags entries in the viewer’s own namespace', () => {
+    const ctx = resolveContext({
+      url: 'https://github.com/octocat/project',
+      document: makeDoc({ userLogin: 'octocat', octolyticsNwo: 'octocat/project' }),
+    });
+    expect(entryFromContext(ctx, 1)?.involved).toBe(true);
+  });
+
+  it('flags issues the viewer participates in, even in another owner’s repo', () => {
+    const ctx = resolveContext({
+      url: 'https://github.com/acme/project/issues/1',
+      document: makeDoc({
+        userLogin: 'octocat',
+        octolyticsNwo: 'acme/project',
+        bodyHtml: '<div id="partial-discussion-sidebar"><a href="/octocat"></a></div>',
+      }),
+    });
+    expect(entryFromContext(ctx, 1)?.involved).toBe(true);
+  });
+
+  it('leaves unrelated pages unflagged', () => {
+    const ctx = resolveContext({
+      url: 'https://github.com/acme/project',
+      document: makeDoc({ userLogin: 'octocat', octolyticsNwo: 'acme/project' }),
+    });
+    expect(entryFromContext(ctx, 1)?.involved).toBeUndefined();
+  });
+
+  it('isInvolvedEntry combines the live owner match with the stored flag', () => {
+    expect(isInvolvedEntry(makeEntry({ key: '/octocat/r', owner: 'octocat' }), 'octocat')).toBe(
+      true,
+    );
+    expect(isInvolvedEntry(makeEntry({ key: '/acme/r', owner: 'acme' }), 'octocat')).toBe(false);
+    expect(
+      isInvolvedEntry(makeEntry({ key: '/acme/r', owner: 'acme', involved: true }), 'octocat'),
+    ).toBe(true);
+    expect(isInvolvedEntry(makeEntry({ key: '/octocat/r', owner: 'octocat' }), undefined)).toBe(
+      false,
+    );
+  });
+
+  it('keeps involvement sticky across an anonymous re-visit', () => {
+    const before: HistoryState = {
+      entries: [makeEntry({ key: '/o/r', owner: 'o', involved: true, lastVisited: 1 })],
+    };
+    const merged = upsertVisit(before, makeEntry({ key: '/o/r', owner: 'o', lastVisited: 2 }));
+    expect(merged.entries[0]?.involved).toBe(true);
   });
 });

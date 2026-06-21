@@ -39,6 +39,16 @@ describe('settingsSchema', () => {
       settingsSchema.parse({ ...DEFAULT_SETTINGS, navSections: ['issues', 'bogus'] }).navSections,
     ).toEqual(DEFAULT_SETTINGS.navSections);
   });
+
+  it('round-trips historyInvolvedOnly and falls back on a bad value', () => {
+    expect(
+      settingsSchema.parse({ ...DEFAULT_SETTINGS, historyInvolvedOnly: true }).historyInvolvedOnly,
+    ).toBe(true);
+    expect(
+      settingsSchema.parse({ ...DEFAULT_SETTINGS, historyInvolvedOnly: 'nope' })
+        .historyInvolvedOnly,
+    ).toBe(false);
+  });
 });
 
 describe('historyStateSchema', () => {

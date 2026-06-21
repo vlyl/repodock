@@ -6,6 +6,7 @@ import {
   clearAllHistory,
   clearUnpinnedHistory,
   groupByRepository,
+  isInvolvedEntry,
   pinEntry,
   removeHistoryEntry,
   savePinnedEntry,
@@ -14,14 +15,18 @@ import {
 } from '@/core/history';
 import type { LinkTarget } from '@/core/settings';
 import { t } from '@/i18n';
-import { IconButton } from '@/ui/components/controls';
+import { IconButton, Toggle } from '@/ui/components/controls';
 import { useGitHubHistory } from '@/ui/hooks/useGitHubHistory';
+import { useViewerLogin } from '@/ui/hooks/useViewerLogin';
 import { HistoryItem } from './HistoryItem';
 
 export interface HistoryPanelProps {
   currentKey?: string;
   linkTarget: LinkTarget;
   importBrowserHistory?: boolean;
+  /** When set, show a footer toggle that filters to the viewer's own pages. */
+  involvedOnly?: boolean;
+  onToggleInvolved?: (next: boolean) => void;
   onClose?: () => void;
   headingId?: string;
 }
@@ -42,10 +47,13 @@ export function HistoryPanel({
   currentKey,
   linkTarget,
   importBrowserHistory = false,
+  involvedOnly = false,
+  onToggleInvolved,
   onClose,
   headingId,
 }: HistoryPanelProps): ReactNode {
   const { entries, ownedKeys } = useGitHubHistory(importBrowserHistory);
+  const viewerLogin = useViewerLogin();
   const [query, setQuery] = useState('');
   const [shownByGroup, setShownByGroup] = useState<Record<string, number>>({});
   const now = Date.now();
@@ -54,7 +62,12 @@ export function HistoryPanel({
   const showMore = (key: string): void =>
     setShownByGroup((current) => ({ ...current, [key]: (current[key] ?? PAGE_SIZE) + PAGE_SIZE }));
 
-  const filtered = useMemo(() => searchEntries(entries, query), [entries, query]);
+  const filtered = useMemo(() => {
+    const bySearch = searchEntries(entries, query);
+    return involvedOnly
+      ? bySearch.filter((entry) => isInvolvedEntry(entry, viewerLogin))
+      : bySearch;
+  }, [entries, query, involvedOnly, viewerLogin]);
   const pinned = useMemo(
     () => filtered.filter((entry) => entry.pinned).sort((a, b) => b.lastVisited - a.lastVisited),
     [filtered],
@@ -165,6 +178,17 @@ export function HistoryPanel({
           );
         })}
       </div>
+
+      {onToggleInvolved && (
+        <div className="rd-hist__filter">
+          <span className="rd-hist__filter-label">{t('history.involvedOnly')}</span>
+          <Toggle
+            checked={involvedOnly}
+            onChange={onToggleInvolved}
+            label={t('history.involvedOnly')}
+          />
+        </div>
+      )}
 
       {hasAny && (
         <div className="rd-hist__footer">

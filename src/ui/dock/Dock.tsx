@@ -16,6 +16,7 @@ export interface DockProps {
   historyOpen: boolean;
   onToggleHistory: () => void;
   onCloseHistory: () => void;
+  onToggleInvolved: (next: boolean) => void;
 }
 
 /**
@@ -31,6 +32,7 @@ export function Dock({
   historyOpen,
   onToggleHistory,
   onCloseHistory,
+  onToggleInvolved,
 }: DockProps): ReactNode {
   const historyHeadingId = useId();
 
@@ -58,6 +60,8 @@ export function Dock({
             currentKey={currentKey}
             linkTarget={settings.historyLinkTarget}
             importBrowserHistory={settings.importBrowserHistory}
+            involvedOnly={settings.historyInvolvedOnly}
+            onToggleInvolved={onToggleInvolved}
             onClose={onCloseHistory}
             headingId={historyHeadingId}
           />

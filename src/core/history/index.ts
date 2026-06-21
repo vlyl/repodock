@@ -5,6 +5,7 @@ export {
   clearUnpinned,
   entryFromContext,
   groupByRepository,
+  isInvolvedEntry,
   isRecordable,
   mergeHistories,
   recordVisit,

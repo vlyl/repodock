@@ -57,6 +57,8 @@ export function App(): ReactNode {
             currentKey={context ? canonicalKeyFor(context.safeUrl) : undefined}
             linkTarget={settings.historyLinkTarget}
             importBrowserHistory={settings.importBrowserHistory}
+            involvedOnly={settings.historyInvolvedOnly}
+            onToggleInvolved={(next) => void updateSettings({ historyInvolvedOnly: next })}
             onClose={() => setView('main')}
           />
         </div>

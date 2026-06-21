@@ -25,10 +25,18 @@ navigation metadata** so you can find the page again:
 - A human-readable title derived from the page
 - First/last visit timestamps and a visit count
 - Pinned state
+- An "involved" flag — whether the page is in your own namespace, or you authored
+  / are assigned to / commented on / review its issue, pull request, or
+  discussion. This powers the optional **Only pages I'm involved in** filter and
+  is derived locally from the page; no issue, PR, or comment content is stored.
 
-You control this entirely: disable recording, set the limit, search, pin, remove
-individual entries, clear unpinned, or clear everything — from the popup or the
-options page.
+To support that filter, RepoDock also remembers your **logged-in GitHub login**
+(read from the page's `user-login` meta tag) in local-only storage. It is never
+synced or transmitted, and is removed when you **Clear history** in the options page.
+
+You control history entirely: disable recording, set the limit, search, pin,
+filter, remove individual entries, clear unpinned, or clear everything — from the
+popup or the options page.
 
 ### Browser history (read on demand, not stored, optional)
 

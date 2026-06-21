@@ -67,6 +67,7 @@ export const historyEntrySchema = z.object({
   lastVisited: z.number().int().nonnegative(),
   visitCount: z.number().int().positive(),
   pinned: z.boolean(),
+  involved: z.boolean().optional(),
   parserVersion: z.number().int().nonnegative(),
 });
 

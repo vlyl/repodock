@@ -3,6 +3,7 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { HistoryEntry } from '@/core/history';
 import { getHistory, historyStore } from '@/core/history';
+import { viewerStore } from '@/core/viewer';
 import { HistoryPanel } from '@/ui/dock/HistoryPanel';
 import { expectNoA11yViolations } from '../helpers/axe';
 
@@ -92,6 +93,39 @@ describe('HistoryPanel', () => {
     await user.click(screen.getByRole('button', { name: 'Show 2 more' }));
     expect(screen.getByText('page 5')).toBeInTheDocument();
     expect(screen.getByText('page 6')).toBeInTheDocument();
+  });
+
+  it('filters to involved pages and toggles the filter', async () => {
+    await viewerStore.set({ login: 'octocat' });
+    await seed([
+      entry({ key: '/octocat/mine', title: 'My repo page', nwo: 'octocat/mine', owner: 'octocat' }),
+      entry({ key: '/acme/theirs', title: 'Their repo page', nwo: 'acme/theirs', owner: 'acme' }),
+      entry({
+        key: '/acme/issue',
+        title: 'Issue I commented',
+        nwo: 'acme/proj',
+        owner: 'acme',
+        involved: true,
+      }),
+    ]);
+    const user = userEvent.setup();
+    let next: boolean | undefined;
+    render(
+      <HistoryPanel
+        linkTarget="current"
+        involvedOnly
+        onToggleInvolved={(value) => (next = value)}
+      />,
+    );
+
+    // Owner-matched (live) and stored-involved entries show; the rest are hidden.
+    await waitFor(() => expect(screen.getByText('My repo page')).toBeInTheDocument());
+    expect(screen.getByText('Issue I commented')).toBeInTheDocument();
+    expect(screen.queryByText('Their repo page')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('switch', { name: "Only pages I'm involved in" }));
+    expect(next).toBe(false);
+    await viewerStore.set({});
   });
 
   it('shows an empty state', async () => {

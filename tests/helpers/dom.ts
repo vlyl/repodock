@@ -9,6 +9,10 @@ export interface DocOptions {
   colorMode?: string;
   baseRef?: string;
   headRef?: string;
+  /** Value for the `user-login` meta tag (the logged-in viewer). */
+  userLogin?: string;
+  /** Raw HTML appended to the body, e.g. an issue sidebar with participants. */
+  bodyHtml?: string;
 }
 
 /** Build a detached jsdom Document mimicking a GitHub page's relevant markup. */
@@ -33,6 +37,17 @@ export function makeDoc(opts: DocOptions = {}): Document {
     meta.setAttribute('name', 'octolytics-dimension-repository_nwo');
     meta.setAttribute('content', opts.octolyticsNwo);
     doc.head.appendChild(meta);
+  }
+  if (opts.userLogin) {
+    const meta = doc.createElement('meta');
+    meta.setAttribute('name', 'user-login');
+    meta.setAttribute('content', opts.userLogin);
+    doc.head.appendChild(meta);
+  }
+  if (opts.bodyHtml) {
+    const container = doc.createElement('div');
+    container.innerHTML = opts.bodyHtml;
+    doc.body.appendChild(container);
   }
 
   const scriptText =

@@ -162,9 +162,22 @@ export interface GitHubContext {
   lineRange?: LineRange;
   item?: ContextItem;
   compare?: CompareRefs;
+  /** The logged-in viewer and their relationship to this page, from the DOM. */
+  viewer?: ViewerInfo;
   /** Epoch milliseconds at which this context was resolved. */
   resolvedAt: number;
   diagnostics?: ContextDiagnostics;
+}
+
+/** Who is viewing the page, and whether they are involved with its item. */
+export interface ViewerInfo {
+  /** The logged-in GitHub login, from the page's `user-login` meta tag. */
+  login?: string;
+  /**
+   * The viewer authored, was assigned to, commented on, or reviews the current
+   * issue, pull request, or discussion. Best-effort, detected from the DOM.
+   */
+  participant?: boolean;
 }
 
 /** Input to the resolver. `document` is omitted when resolving from a URL only. */

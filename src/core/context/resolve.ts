@@ -7,15 +7,39 @@ import type {
   ContextRef,
   GitHubContext,
   ItemType,
+  PageKind,
   RepositoryRef,
   ResolveInput,
+  ViewerInfo,
 } from './types';
 import { CONTEXT_SCHEMA_VERSION } from './types';
 import { parseGitHubUrl, sanitizeGitHubUrl } from './github-url';
-import { cleanItemTitle, extractDomFacts } from './dom';
+import { cleanItemTitle, extractDomFacts, viewerIsParticipant, viewerLoginFromDom } from './dom';
 import type { DomFacts } from './dom';
 
 const CONFIDENCE_RANK: Record<Confidence, number> = { high: 3, medium: 2, low: 1 };
+
+/** Page kinds on which "the viewer participates" is meaningful. */
+const PARTICIPATING_KINDS = new Set<PageKind>(['issue', 'pull-request', 'discussion']);
+
+/**
+ * Resolve the logged-in viewer and whether they participate in the page's item.
+ * The login meta is reliable on any page; participation is only inferred when
+ * the DOM is trusted (matches the URL) and the page is an issue / PR / discussion.
+ */
+function resolveViewer(
+  doc: Document,
+  pageKind: PageKind,
+  domTrusted: boolean,
+): ViewerInfo | undefined {
+  const login = viewerLoginFromDom(doc);
+  if (login === undefined) return undefined;
+  const viewer: ViewerInfo = { login };
+  if (domTrusted && PARTICIPATING_KINDS.has(pageKind) && viewerIsParticipant(doc, login)) {
+    viewer.participant = true;
+  }
+  return viewer;
+}
 
 /** Item kinds for which an Open Graph title is a meaningful display title. */
 const TITLED_ITEM_TYPES = new Set<ItemType>(['pull', 'issue', 'discussion', 'release', 'commit']);
@@ -128,6 +152,11 @@ export function resolveContext(input: ResolveInput): GitHubContext {
   if (urlFacts.lineRange) context.lineRange = urlFacts.lineRange;
   if (item) context.item = item;
   if (compare && (compare.base || compare.head)) context.compare = compare;
+
+  if (input.document) {
+    const viewer = resolveViewer(input.document, urlFacts.pageKind, usableDom !== undefined);
+    if (viewer) context.viewer = viewer;
+  }
 
   context.diagnostics = buildDiagnostics(input.url, url, usableDom, dom, warnings);
 

@@ -3,6 +3,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@primer/octicons-react';
 import type { NavSection } from '@/core/context';
 import { NAV_SECTIONS } from '@/core/context';
 import { clearAllHistory } from '@/core/history';
+import { clearViewer } from '@/core/viewer';
 import type { Density, DockPosition, LinkTarget, ThemeMode } from '@/core/settings';
 import {
   HISTORY_LIMIT_MAX,
@@ -77,7 +78,10 @@ export function App(): ReactNode {
   }
 
   const clearHistory = (): void => {
-    if (window.confirm(t('options.confirmClearHistory'))) void clearAllHistory();
+    if (window.confirm(t('options.confirmClearHistory'))) {
+      void clearAllHistory();
+      void clearViewer();
+    }
   };
   const doResetSettings = (): void => {
     if (window.confirm(t('options.confirmResetSettings'))) void resetSettings();

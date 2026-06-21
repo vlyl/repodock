@@ -27,6 +27,7 @@ export const settingsSchema = z
     visible: z.boolean().catch(DEFAULT_SETTINGS.visible),
     recordHistory: z.boolean().catch(DEFAULT_SETTINGS.recordHistory),
     importBrowserHistory: z.boolean().catch(DEFAULT_SETTINGS.importBrowserHistory),
+    historyInvolvedOnly: z.boolean().catch(DEFAULT_SETTINGS.historyInvolvedOnly),
     historyLimit: z
       .number()
       .int()

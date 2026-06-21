@@ -103,3 +103,41 @@ describe('resolveContext — staleness guard', () => {
     expect(ctx.diagnostics?.warnings.some((w) => w.includes('mid-navigation'))).toBe(true);
   });
 });
+
+describe('resolveContext — viewer', () => {
+  it('captures the logged-in login without inferring participation', () => {
+    const ctx = resolveContext({
+      url: 'https://github.com/facebook/react',
+      document: makeDoc({ userLogin: 'octocat' }),
+      now: NOW,
+    });
+    expect(ctx.viewer?.login).toBe('octocat');
+    expect(ctx.viewer?.participant).toBeUndefined();
+  });
+
+  it('marks participation when the viewer appears in an issue sidebar', () => {
+    const ctx = resolveContext({
+      url: 'https://github.com/facebook/react/issues/5',
+      document: makeDoc({
+        userLogin: 'octocat',
+        octolyticsNwo: 'facebook/react',
+        bodyHtml:
+          '<div id="partial-discussion-sidebar"><a href="/octocat"><img alt="@octocat"></a></div>',
+      }),
+      now: NOW,
+    });
+    expect(ctx.viewer).toEqual({ login: 'octocat', participant: true });
+  });
+
+  it('does not infer participation on non-issue pages', () => {
+    const ctx = resolveContext({
+      url: 'https://github.com/facebook/react',
+      document: makeDoc({
+        userLogin: 'octocat',
+        bodyHtml: '<div id="partial-discussion-sidebar"><a href="/octocat"></a></div>',
+      }),
+      now: NOW,
+    });
+    expect(ctx.viewer?.participant).toBeUndefined();
+  });
+});
