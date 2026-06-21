@@ -25,12 +25,14 @@ local history of the GitHub pages you've visited.
 - **Accuracy first** — every value is resolved with a known source and
   confidence. RepoDock never guesses a branch and never shows stale context from
   the previous page. Unknown values are simply omitted.
-- **Four positions** — dock to the left (default), right, top, or bottom edge.
-  Vertical docks show the recent-pages list inline as a sidebar. Choice persists
-  across tabs, reloads, and sessions.
-- **Recent pages** — a list grouped by repository and sorted newest-first, drawn
-  from the pages you visit _and_ your existing github.com browser history, with
-  search, pinning, and quick navigation. Browser-history import is optional.
+- **Unobtrusive by design** — a compact dock pinned to the bottom-left (default)
+  or bottom-right corner that auto-hides to a small handle until you hover it, so
+  it never pushes or covers GitHub's content. The side persists across tabs,
+  reloads, and sessions.
+- **Recent pages** — a list that pops up on demand, grouped by repository and
+  sorted newest-first, drawn from the pages you visit _and_ your existing
+  github.com browser history, with search, pinning, and quick navigation.
+  Browser-history import is optional.
 - **Keyboard friendly** — a configurable shortcut toggles the dock; Escape closes
   panels; everything is reachable by keyboard.
 - **Themed to match GitHub** — follows GitHub's light/dark theme, or force one.
@@ -76,9 +78,10 @@ Then load the unpacked extension:
 
 ## Usage
 
-- The dock appears on any `github.com` page. Use the **gear** to open settings,
-  the **clock** to open recent pages, the **copy** icon to copy a context string,
-  the **chevron** to collapse, and the **eye** to hide.
+- The dock sits in the bottom-left corner of any `github.com` page. Hover it to
+  expand the bar; use the **logo** or **clock** to pop up recent pages, the
+  **copy** icon to copy a context string, the **gear** to open settings, and the
+  **eye** to hide.
 - Toggle visibility anywhere with the keyboard shortcut (default `Alt+Shift+D`;
   change it at `chrome://extensions/shortcuts` or Firefox's _Manage Extension
   Shortcuts_).

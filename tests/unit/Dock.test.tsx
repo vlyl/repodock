@@ -11,9 +11,7 @@ function renderDock(overrides: Partial<Parameters<typeof Dock>[0]> = {}) {
   const props = {
     context,
     settings: DEFAULT_SETTINGS,
-    collapsed: false,
     historyOpen: false,
-    onToggleCollapsed: vi.fn(),
     onToggleHistory: vi.fn(),
     onCloseHistory: vi.fn(),
     onHide: vi.fn(),
@@ -45,14 +43,13 @@ describe('Dock', () => {
     const props = renderDock();
     await user.click(screen.getByLabelText('Hide dock'));
     expect(props.onHide).toHaveBeenCalledOnce();
-    await user.click(screen.getByLabelText('Recent pages'));
-    expect(props.onToggleHistory).toHaveBeenCalledOnce();
+    // Both the toolbar icon and the brand handle toggle the recent list.
+    await user.click(screen.getAllByLabelText('Recent pages')[0]!);
+    expect(props.onToggleHistory).toHaveBeenCalled();
   });
 
-  it('shows a compact label when collapsed', () => {
-    renderDock({ collapsed: true });
-    // The full breadcrumb copy action is hidden while collapsed.
-    expect(screen.queryByLabelText('Copy context')).not.toBeInTheDocument();
-    expect(screen.getByText('facebook/react')).toBeInTheDocument();
+  it('renders the recent list when the history popover is open', () => {
+    renderDock({ historyOpen: true });
+    expect(screen.getByRole('heading', { name: 'Recent GitHub pages' })).toBeInTheDocument();
   });
 });

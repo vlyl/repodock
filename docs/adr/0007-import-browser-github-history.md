@@ -1,6 +1,6 @@
 # 7. Import the browser's github.com history into the recent list
 
-- Status: Accepted
+- Status: Accepted (presentation amended by [ADR-8](0008-bottom-corner-dock-with-popup-history.md))
 - Date: 2026-06-21
 - Amends: [ADR-5](0005-extension-owned-history.md)
 

@@ -12,8 +12,8 @@ import {
 describe('settings store', () => {
   it('returns defaults, persists updates, and resets', async () => {
     expect(await getSettings()).toEqual(DEFAULT_SETTINGS);
-    await updateSettings({ position: 'bottom', visible: false });
-    expect(await getSettings()).toMatchObject({ position: 'bottom', visible: false });
+    await updateSettings({ position: 'right', visible: false });
+    expect(await getSettings()).toMatchObject({ position: 'right', visible: false });
     await resetSettings();
     expect(await getSettings()).toEqual(DEFAULT_SETTINGS);
   });

@@ -14,43 +14,37 @@ export interface DockAppProps {
 }
 
 /**
- * Root of the in-page dock. Owns visibility and history-panel state, resolves
- * the theme, and (for the horizontal popover only) closes the recent list on
- * Escape or an outside click. Vertical docks show the list inline as a sidebar.
+ * Root of the in-page dock. Owns visibility and the history-popover state, and
+ * closes the popover on Escape or an outside click.
  */
 export function DockApp({ controller }: DockAppProps): ReactNode {
   const { settings, ready } = useSettings();
   const context = useContextController(controller);
   const theme = useResolvedTheme(settings?.theme ?? 'system');
 
-  const [historyOpen, setHistoryOpen] = useState<boolean | null>(null);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  const isVertical = !!settings && (settings.position === 'left' || settings.position === 'right');
-  // The recent list defaults to open for vertical (sidebar) docks.
-  const effectiveHistoryOpen = historyOpen ?? isVertical;
-  const popoverOpen = !!settings && !isVertical && effectiveHistoryOpen;
-
-  // Escape closes the horizontal popover.
+  // Escape closes the history popover.
   useEffect(() => {
-    if (!popoverOpen) return;
+    if (!historyOpen) return;
     const onKey = (event: KeyboardEvent): void => {
       if (event.key === 'Escape') setHistoryOpen(false);
     };
     window.addEventListener('keydown', onKey, true);
     return () => window.removeEventListener('keydown', onKey, true);
-  }, [popoverOpen]);
+  }, [historyOpen]);
 
-  // A click outside the dock closes the horizontal popover.
+  // A click outside the dock closes the history popover.
   useEffect(() => {
-    if (!popoverOpen) return;
+    if (!historyOpen) return;
     const onPointerDown = (event: MouseEvent): void => {
       const root = rootRef.current;
       if (root && !event.composedPath().includes(root)) setHistoryOpen(false);
     };
     window.addEventListener('mousedown', onPointerDown, true);
     return () => window.removeEventListener('mousedown', onPointerDown, true);
-  }, [popoverOpen]);
+  }, [historyOpen]);
 
   if (!ready || !settings?.visible) return null;
 
@@ -66,10 +60,8 @@ export function DockApp({ controller }: DockAppProps): ReactNode {
       <Dock
         context={context}
         settings={settings}
-        collapsed={settings.collapsed}
-        historyOpen={effectiveHistoryOpen}
-        onToggleCollapsed={() => void updateSettings({ collapsed: !settings.collapsed })}
-        onToggleHistory={() => setHistoryOpen(!effectiveHistoryOpen)}
+        historyOpen={historyOpen}
+        onToggleHistory={() => setHistoryOpen((open) => !open)}
         onCloseHistory={() => setHistoryOpen(false)}
         onHide={() => void updateSettings({ visible: false })}
         onOpenSettings={() => void openOptionsPage()}

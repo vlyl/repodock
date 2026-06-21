@@ -43,9 +43,7 @@ export const en = {
   'history.visitsMany': '{0} visits',
   'history.confirmClearAll': 'Clear all history, including pinned pages?',
 
-  'position.top': 'Top',
   'position.right': 'Right',
-  'position.bottom': 'Bottom',
   'position.left': 'Left',
 
   'density.compact': 'Compact',
@@ -78,17 +76,15 @@ export const en = {
   'options.section.data': 'Data & privacy',
   'options.section.shortcuts': 'Keyboard shortcuts',
   'options.section.advanced': 'Advanced',
-  'options.position': 'Dock position',
-  'options.positionHelp': 'Where the dock is anchored in the viewport.',
+  'options.position': 'Dock side',
+  'options.positionHelp': 'Which bottom corner the dock sits in.',
+  'options.autoHide': 'Auto-hide when idle',
+  'options.autoHideHelp':
+    'Collapse the dock to a small handle in the corner until you hover it, so it stays out of the way.',
   'options.density': 'Density',
   'options.densityHelp': 'Comfortable adds more breathing room; compact is denser.',
-  'options.collapsed': 'Collapsed',
-  'options.collapsedHelp': 'Show only a compact summary until expanded. Persists across reloads.',
   'options.showLabels': 'Show field labels',
   'options.showLabelsHelp': 'Display prefixes such as “branch:” before values.',
-  'options.reservePageSpace': 'Reserve space (push page)',
-  'options.reservePageSpaceHelp':
-    'For left/right docks, shift GitHub’s content aside instead of overlapping it.',
   'options.theme': 'Theme',
   'options.themeHelp': 'Follow GitHub’s theme, or force light or dark.',
   'options.recordHistory': 'Record recent pages',

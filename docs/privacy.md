@@ -7,10 +7,9 @@ stays in your browser.
 
 ### Settings (synced if your browser syncs extensions)
 
-Your preferences only: dock position, density, theme, visibility, collapsed
-state, whether to reserve page space, whether to record history, whether to
-include browser history, the history limit, link target, and the diagnostics
-toggle. No personal data.
+Your preferences only: dock side, density, theme, visibility, auto-hide, whether
+to record history, whether to include browser history, the history limit, link
+target, and the diagnostics toggle. No personal data.
 
 ### Recent-page history (local only, never synced)
 

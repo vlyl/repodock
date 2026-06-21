@@ -1,11 +1,10 @@
 import { createShadowRootUi, defineContentScript } from '#imports';
 import { createRoot } from 'react-dom/client';
 import type { Root } from 'react-dom/client';
-import { DEFAULT_SETTINGS, getSettings, watchSettings } from '@/core/settings';
+import { getSettings, watchSettings } from '@/core/settings';
 import { ContextController } from '@/lib/context-controller';
 import { setDiagnosticsEnabled } from '@/lib/logger';
 import { onContextRequest } from '@/lib/messaging';
-import { applyPageOffset, removePageOffset } from '@/lib/page-offset';
 import { DockApp } from '@/ui/dock/DockApp';
 import '@/ui/theme/tokens.css';
 import '@/ui/components/controls.css';
@@ -19,22 +18,8 @@ export default defineContentScript({
   cssInjectionMode: 'ui',
   runAt: 'document_end',
   async main(ctx) {
-    // Keep diagnostics and the page-offset (reserved sidebar space) in sync with
-    // settings, and re-apply the offset after Turbo navigation (which can strip
-    // document-level <style> elements from the head).
-    let latestSettings = DEFAULT_SETTINGS;
-    const onSettings = (settings: typeof DEFAULT_SETTINGS): void => {
-      latestSettings = settings;
-      setDiagnosticsEnabled(settings.developerDiagnostics);
-      applyPageOffset(settings);
-    };
-    void getSettings().then(onSettings);
-    watchSettings(onSettings);
-
-    const reapplyOffset = (): void => applyPageOffset(latestSettings);
-    window.addEventListener('wxt:locationchange', reapplyOffset);
-    document.addEventListener('turbo:load', reapplyOffset);
-    document.addEventListener('turbo:render', reapplyOffset);
+    void getSettings().then((settings) => setDiagnosticsEnabled(settings.developerDiagnostics));
+    watchSettings((settings) => setDiagnosticsEnabled(settings.developerDiagnostics));
 
     const controller = new ContextController();
     controller.start();
@@ -62,12 +47,6 @@ export default defineContentScript({
     });
     ui.mount();
 
-    ctx.onInvalidated(() => {
-      controller.stop();
-      removePageOffset();
-      window.removeEventListener('wxt:locationchange', reapplyOffset);
-      document.removeEventListener('turbo:load', reapplyOffset);
-      document.removeEventListener('turbo:render', reapplyOffset);
-    });
+    ctx.onInvalidated(() => controller.stop());
   },
 });

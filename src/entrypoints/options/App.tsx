@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { ArrowDownIcon, ArrowLeftIcon, ArrowRightIcon, ArrowUpIcon } from '@primer/octicons-react';
+import { ArrowLeftIcon, ArrowRightIcon } from '@primer/octicons-react';
 import { clearAllHistory } from '@/core/history';
 import type { Density, DockPosition, LinkTarget, ThemeMode } from '@/core/settings';
 import {
@@ -21,10 +21,8 @@ import { useSettings } from '@/ui/hooks/useSettings';
 import { useResolvedTheme } from '@/ui/theme/useTheme';
 
 const POSITION_OPTIONS: { value: DockPosition; label: string; icon: ReactNode }[] = [
-  { value: 'top', label: t('position.top'), icon: <ArrowUpIcon size={14} /> },
-  { value: 'right', label: t('position.right'), icon: <ArrowRightIcon size={14} /> },
-  { value: 'bottom', label: t('position.bottom'), icon: <ArrowDownIcon size={14} /> },
   { value: 'left', label: t('position.left'), icon: <ArrowLeftIcon size={14} /> },
+  { value: 'right', label: t('position.right'), icon: <ArrowRightIcon size={14} /> },
 ];
 
 const DENSITY_OPTIONS: { value: Density; label: string }[] = [
@@ -131,28 +129,17 @@ export function App(): ReactNode {
               />
             }
           />
-          <Field
-            label={t('options.reservePageSpace')}
-            description={t('options.reservePageSpaceHelp')}
-            control={
-              <Toggle
-                label={t('options.reservePageSpace')}
-                checked={settings.reservePageSpace}
-                onChange={(checked) => void updateSettings({ reservePageSpace: checked })}
-              />
-            }
-          />
         </Section>
 
         <Section title={t('options.section.behavior')}>
           <Field
-            label={t('options.collapsed')}
-            description={t('options.collapsedHelp')}
+            label={t('options.autoHide')}
+            description={t('options.autoHideHelp')}
             control={
               <Toggle
-                label={t('options.collapsed')}
-                checked={settings.collapsed}
-                onChange={(checked) => void updateSettings({ collapsed: checked })}
+                label={t('options.autoHide')}
+                checked={settings.autoHide}
+                onChange={(checked) => void updateSettings({ autoHide: checked })}
               />
             }
           />

@@ -1,7 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { getSettings } from '@/core/settings';
 import type { ContextController } from '@/lib/context-controller';
 import { DockApp } from '@/ui/dock/DockApp';
 
@@ -18,18 +17,17 @@ function stubController(): ContextController {
 afterEach(cleanup);
 
 describe('DockApp', () => {
-  it('persists the collapsed state when the dock is collapsed', async () => {
+  it('toggles the recent-pages popover from the dock handle', async () => {
     const user = userEvent.setup();
     render(<DockApp controller={stubController()} />);
 
-    const collapseButtons = await screen.findAllByRole('button', { name: 'Collapse dock' });
-    await user.click(collapseButtons[0]!);
+    // The brand handle is always present; it opens the recent list on demand.
+    const handle = (await screen.findAllByLabelText('Recent pages'))[0]!;
+    expect(screen.queryByRole('heading', { name: 'Recent GitHub pages' })).not.toBeInTheDocument();
 
-    // The change is written to settings (survives reloads) ...
-    await waitFor(async () => expect((await getSettings()).collapsed).toBe(true));
-    // ... and reflected in the UI.
+    await user.click(handle);
     await waitFor(() =>
-      expect(screen.getAllByRole('button', { name: 'Expand dock' }).length).toBeGreaterThan(0),
+      expect(screen.getByRole('heading', { name: 'Recent GitHub pages' })).toBeInTheDocument(),
     );
   });
 });

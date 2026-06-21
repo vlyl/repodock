@@ -1,5 +1,5 @@
-/** Where the dock is anchored in the viewport. */
-export const DOCK_POSITIONS = ['top', 'right', 'bottom', 'left'] as const;
+/** Which side the dock is anchored to (always at the bottom of that side). */
+export const DOCK_POSITIONS = ['left', 'right'] as const;
 export type DockPosition = (typeof DOCK_POSITIONS)[number];
 
 /** Visual density of the dock. */
@@ -23,17 +23,15 @@ export const HISTORY_LIMIT_DEFAULT = 100;
 export const SETTINGS_SCHEMA_VERSION = 1;
 
 export interface Settings {
-  /** Dock anchor position. Default: top. */
+  /** Which side the dock sits on (bottom-left or bottom-right). Default: left. */
   position: DockPosition;
   /** Dock density. */
   density: Density;
-  /** Whether the dock is collapsed. Persisted, so a collapse survives reloads. */
-  collapsed: boolean;
   /**
-   * For vertical (left/right) docks, reserve page space by shifting GitHub's
-   * content instead of floating over it. No effect for top/bottom docks.
+   * Auto-hide the dock to a small handle in the corner when idle, expanding on
+   * hover, so it stays out of the way of GitHub's content.
    */
-  reservePageSpace: boolean;
+  autoHide: boolean;
   /** Whether textual labels (e.g. "branch:") are shown. */
   showLabels: boolean;
   /** Whether the dock is currently visible. */
@@ -58,8 +56,7 @@ export interface Settings {
 export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({
   position: 'left',
   density: 'comfortable',
-  collapsed: false,
-  reservePageSpace: true,
+  autoHide: true,
   showLabels: true,
   visible: true,
   recordHistory: true,

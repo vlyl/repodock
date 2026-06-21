@@ -18,9 +18,10 @@ test.describe('visual @visual', () => {
     );
     const page = await context.newPage();
     await page.goto('https://github.com/facebook/react/blob/main/packages/react/src/React.js');
-    await page.locator('.rd-dock__bar').waitFor();
-    // Capture the context bar only; the recent list below it varies with the
-    // browser's actual history and would make the snapshot non-deterministic.
+    // Hover to expand the auto-hiding bar, then capture it (the recent list is
+    // on-demand and varies with real history, so it's excluded here).
+    await page.locator('.rd-dock').hover();
+    await expect(page.locator('.rd-dock__bar')).toContainText('facebook/react');
     await expect(page.locator('.rd-dock__bar')).toHaveScreenshot('dock-bar.png');
   });
 });

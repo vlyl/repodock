@@ -19,16 +19,17 @@ Initial release.
   head·base), location, repository path, current file, line range, and item
   identity — each with a tracked source and confidence, omitting unknowns and
   guarding against stale DOM during SPA navigation.
-- Four dock positions (top/right/bottom/left), compact and comfortable density,
-  collapse, hide, and a configurable keyboard shortcut to toggle visibility.
+- Compact dock anchored to a bottom corner (bottom-left default or bottom-right),
+  with an `autoHide` handle that expands on hover so it never pushes or covers
+  GitHub's content. Hide and a configurable keyboard shortcut toggle visibility.
+  See [ADR-8](docs/adr/0008-bottom-corner-dock-with-popup-history.md).
 - Interactive context segments (repository, ref, breadcrumb, item, lines) and a
   "copy context" action.
-- Recent-page navigator: extension-owned, sanitized, deduplicated, stabilized
-  recording merged with an optional, read-only import of the browser's
-  github.com history (`history` permission, toggleable). The list is grouped by
-  repository and sorted newest-first, with search, pinning, trimming, and clear
-  actions, and is shown inline as a sidebar in vertical (left/right) docks. The
-  default dock position is the left edge. See
+- Recent-page navigator that pops up on demand: extension-owned, sanitized,
+  deduplicated, stabilized recording merged with an optional, read-only import of
+  the browser's github.com history (`history` permission, toggleable). The list
+  is grouped by repository and sorted newest-first, with search, pinning,
+  trimming, and clear actions. See
   [ADR-7](docs/adr/0007-import-browser-github-history.md).
 - Toolbar popup with quick toggles and a context preview, plus a full options
   page with appearance, behavior, history, shortcuts, advanced, and data

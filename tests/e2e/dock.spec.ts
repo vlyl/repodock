@@ -1,6 +1,8 @@
 import type { BrowserContext } from '@playwright/test';
 import { expect, githubBlobFixture, test } from './fixtures';
 
+const FILE_URL = 'https://github.com/facebook/react/blob/main/packages/react/src/React.js';
+
 async function serveGitHub(context: BrowserContext): Promise<void> {
   await context.route('https://github.com/**', (route) =>
     route.fulfill({ contentType: 'text/html', body: githubBlobFixture() }),
@@ -8,57 +10,43 @@ async function serveGitHub(context: BrowserContext): Promise<void> {
 }
 
 test.describe('content dock', () => {
-  test('renders the resolved context on a GitHub page', async ({ context }) => {
+  test('renders the resolved context without affecting page layout', async ({ context }) => {
     await serveGitHub(context);
     const page = await context.newPage();
-    await page.goto('https://github.com/facebook/react/blob/main/packages/react/src/React.js');
+    await page.goto(FILE_URL);
 
-    // The Shadow Root host is attached to <html>.
+    // The Shadow Root host is attached to <html> with zero size and does not
+    // push page content (no reserved space, no overlap by default).
     const dock = page.locator('repodock-dock');
     await expect(dock).toBeAttached();
-    // The host must not occupy layout space (otherwise a blank strip appears at
-    // the top of the page, even when the dock is hidden).
-    const hostHeight = await dock.evaluate((el) => el.getBoundingClientRect().height);
-    expect(hostHeight).toBe(0);
-    // ...and it must not push page content down.
-    const bodyTop = await page.evaluate(() => document.body.getBoundingClientRect().top);
-    expect(bodyTop).toBe(0);
-    // The repository, ref, and file path all appear in the dock. (The text can
-    // also appear in the recent list, so assert containment, not a single node.)
-    await expect(dock).toContainText('facebook/react');
-    await expect(dock).toContainText('React.js');
-    await expect(dock).toContainText('main');
+    expect(await dock.evaluate((el) => el.getBoundingClientRect().height)).toBe(0);
+    expect(await page.evaluate(() => document.body.getBoundingClientRect().top)).toBe(0);
+
+    // Hovering reveals the bar (it auto-hides to a handle when idle).
+    await page.locator('.rd-dock').hover();
+    await expect(page.locator('.rd-dock__bar')).toContainText('facebook/react');
+    await expect(page.locator('.rd-dock__bar')).toContainText('React.js');
   });
 
-  test('shows the recent list inline by default (left/vertical dock)', async ({ context }) => {
+  test('opens the recent list on demand', async ({ context }) => {
     await serveGitHub(context);
     const page = await context.newPage();
-    await page.goto('https://github.com/facebook/react/blob/main/packages/react/src/React.js');
+    await page.goto(FILE_URL);
 
-    // The default position is left, so the recent list is shown inline.
+    // The list is not shown until requested (no overlap by default).
+    await expect(page.getByRole('heading', { name: 'Recent GitHub pages' })).toBeHidden();
+    // The brand handle is always visible and toggles the popover.
+    await page.getByRole('button', { name: 'Recent pages' }).first().click();
     await expect(page.getByRole('heading', { name: 'Recent GitHub pages' })).toBeVisible();
-  });
-
-  test('reserves page space for the left dock (no overlap)', async ({ context }) => {
-    await serveGitHub(context);
-    const page = await context.newPage();
-    await page.goto('https://github.com/facebook/react/blob/main/packages/react/src/React.js');
-    await page.locator('.rd-dock').waitFor();
-
-    // The default left dock with reservePageSpace shifts the page content right.
-    await expect
-      .poll(() =>
-        page.evaluate(() => parseFloat(getComputedStyle(document.documentElement).marginLeft) || 0),
-      )
-      .toBeGreaterThan(100);
   });
 
   test('can be hidden via the hide control', async ({ context }) => {
     await serveGitHub(context);
     const page = await context.newPage();
-    await page.goto('https://github.com/facebook/react/blob/main/packages/react/src/React.js');
+    await page.goto(FILE_URL);
 
     await expect(page.locator('.rd-dock')).toBeVisible();
+    await page.locator('.rd-dock').hover();
     await page.getByLabel('Hide dock').click();
     await expect(page.locator('.rd-dock')).toHaveCount(0);
   });

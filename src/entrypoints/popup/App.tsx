@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { ArrowDownIcon, ArrowLeftIcon, ArrowRightIcon, ArrowUpIcon } from '@primer/octicons-react';
+import { ArrowLeftIcon, ArrowRightIcon } from '@primer/octicons-react';
 import { browser } from '#imports';
 import { buildSegments, canonicalKeyFor, contextTitle } from '@/core/context';
 import type { DockPosition, Density } from '@/core/settings';
@@ -15,10 +15,8 @@ import { useSettings } from '@/ui/hooks/useSettings';
 import { useResolvedTheme } from '@/ui/theme/useTheme';
 
 const POSITION_OPTIONS: { value: DockPosition; label: string; icon: ReactNode }[] = [
-  { value: 'top', label: t('position.top'), icon: <ArrowUpIcon size={14} /> },
-  { value: 'right', label: t('position.right'), icon: <ArrowRightIcon size={14} /> },
-  { value: 'bottom', label: t('position.bottom'), icon: <ArrowDownIcon size={14} /> },
   { value: 'left', label: t('position.left'), icon: <ArrowLeftIcon size={14} /> },
+  { value: 'right', label: t('position.right'), icon: <ArrowRightIcon size={14} /> },
 ];
 
 const DENSITY_OPTIONS: { value: Density; label: string }[] = [
