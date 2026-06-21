@@ -22,18 +22,14 @@ describe('DockApp', () => {
     const user = userEvent.setup();
     render(<DockApp controller={stubController()} />);
 
-    // Open by default.
-    await waitFor(() =>
-      expect(screen.getByRole('heading', { name: 'Recent GitHub pages' })).toBeInTheDocument(),
-    );
+    // Open by default (the search box marks the list; there is no header row).
+    await waitFor(() => expect(screen.getByLabelText('Search recent pages')).toBeInTheDocument());
 
     // The brand handle toggles the list; collapsing it persists to settings.
     const handle = (await screen.findAllByLabelText('Recent pages'))[0]!;
     await user.click(handle);
     await waitFor(() =>
-      expect(
-        screen.queryByRole('heading', { name: 'Recent GitHub pages' }),
-      ).not.toBeInTheDocument(),
+      expect(screen.queryByLabelText('Search recent pages')).not.toBeInTheDocument(),
     );
     await waitFor(async () => expect((await getSettings()).recentOpen).toBe(false));
   });

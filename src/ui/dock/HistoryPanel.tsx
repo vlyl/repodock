@@ -26,8 +26,8 @@ export interface HistoryPanelProps {
   involvedOnly?: boolean;
   /** When set, render an in-panel toggle for {@link involvedOnly} (used by the popup). */
   onToggleInvolved?: (next: boolean) => void;
+  /** When set, render the title + close header (used by the popup to go back). */
   onClose?: () => void;
-  headingId?: string;
 }
 
 /** How many entries to reveal per repository group at a time. */
@@ -49,7 +49,6 @@ export function HistoryPanel({
   involvedOnly = false,
   onToggleInvolved,
   onClose,
-  headingId,
 }: HistoryPanelProps): ReactNode {
   const { entries, ownedKeys } = useGitHubHistory(importBrowserHistory);
   const viewerLogin = useViewerLogin();
@@ -101,15 +100,13 @@ export function HistoryPanel({
   );
 
   return (
-    <div className="rd-hist" role="group" aria-labelledby={headingId}>
-      <div className="rd-hist__header">
-        <h2 className="rd-hist__title" id={headingId}>
-          {t('history.title')}
-        </h2>
-        {onClose && (
+    <div className="rd-hist" role="group" aria-label={t('history.title')}>
+      {onClose && (
+        <div className="rd-hist__header">
+          <h2 className="rd-hist__title">{t('history.title')}</h2>
           <IconButton icon={<XIcon size={16} />} label={t('history.collapse')} onClick={onClose} />
-        )}
-      </div>
+        </div>
+      )}
 
       <div className="rd-hist__search">
         <SearchIcon size={14} className="rd-hist__search-icon" />

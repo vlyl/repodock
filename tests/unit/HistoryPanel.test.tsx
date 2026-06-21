@@ -136,7 +136,7 @@ describe('HistoryPanel', () => {
 
   it('has no accessibility violations', async () => {
     await seed([entry({ key: '/o/r', title: 'Repo page', nwo: 'o/r' })]);
-    const { container } = render(<HistoryPanel linkTarget="current" headingId="h" />);
+    const { container } = render(<HistoryPanel linkTarget="current" />);
     await waitFor(() => expect(screen.getByText('Repo page')).toBeInTheDocument());
     await expectNoA11yViolations(container);
   });

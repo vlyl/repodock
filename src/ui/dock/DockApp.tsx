@@ -35,7 +35,6 @@ export function DockApp({ controller }: DockAppProps): ReactNode {
         settings={settings}
         historyOpen={settings.recentOpen}
         onToggleHistory={() => void updateSettings({ recentOpen: !settings.recentOpen })}
-        onCloseHistory={() => void updateSettings({ recentOpen: false })}
         onToggleInvolved={(next) => void updateSettings({ historyInvolvedOnly: next })}
       />
     </div>

@@ -28,15 +28,16 @@ test.describe('content dock', () => {
     await expect(page.locator('.rd-dock__bar')).toContainText('React.js');
   });
 
-  test('shows the recent list by default and can collapse it', async ({ context }) => {
+  test('shows the recent list by default and collapses from the logo', async ({ context }) => {
     await serveGitHub(context);
     const page = await context.newPage();
     await page.goto(FILE_URL);
 
-    // Shown by default; stays open until explicitly collapsed.
-    await expect(page.getByRole('heading', { name: 'Recent GitHub pages' })).toBeVisible();
-    await page.getByRole('button', { name: 'Collapse recent pages' }).click();
-    await expect(page.getByRole('heading', { name: 'Recent GitHub pages' })).toBeHidden();
+    // Shown by default; the logo handle toggles it (no header/close button).
+    await expect(page.locator('.rd-dock__panel')).toBeVisible();
+    await page.locator('.rd-dock').hover();
+    await page.getByRole('button', { name: 'Recent pages' }).click();
+    await expect(page.locator('.rd-dock__panel')).toBeHidden();
   });
 
   test('shows the GitHub section quick-nav inline in the bar', async ({ context }) => {

@@ -53,6 +53,7 @@ describe('Dock', () => {
 
   it('renders the recent list when the history popover is open', () => {
     renderDock({ historyOpen: true });
-    expect(screen.getByRole('heading', { name: 'Recent GitHub pages' })).toBeInTheDocument();
+    // The dock panel has no header row; the search box marks the list.
+    expect(screen.getByLabelText('Search recent pages')).toBeInTheDocument();
   });
 });

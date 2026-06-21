@@ -1,4 +1,3 @@
-import { useId } from 'react';
 import type { ReactNode } from 'react';
 import { PersonIcon } from '@primer/octicons-react';
 import type { GitHubContext } from '@/core/context';
@@ -17,7 +16,6 @@ export interface DockProps {
   settings: Settings;
   historyOpen: boolean;
   onToggleHistory: () => void;
-  onCloseHistory: () => void;
   onToggleInvolved: (next: boolean) => void;
 }
 
@@ -33,11 +31,8 @@ export function Dock({
   settings,
   historyOpen,
   onToggleHistory,
-  onCloseHistory,
   onToggleInvolved,
 }: DockProps): ReactNode {
-  const historyHeadingId = useId();
-
   const segments = context ? buildSegments(context, { showLabels: settings.showLabels }) : [];
   const hasContext = context !== null && segments.length > 0;
   const currentKey = context ? canonicalKeyFor(context.safeUrl) : undefined;
@@ -63,8 +58,6 @@ export function Dock({
             linkTarget={settings.historyLinkTarget}
             importBrowserHistory={settings.importBrowserHistory}
             involvedOnly={settings.historyInvolvedOnly}
-            onClose={onCloseHistory}
-            headingId={historyHeadingId}
           />
         </div>
       )}
