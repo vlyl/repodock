@@ -34,9 +34,9 @@ To support that filter, RepoDock also remembers your **logged-in GitHub login**
 (read from the page's `user-login` meta tag) in local-only storage. It is never
 synced or transmitted, and is removed when you **Clear history** in the options page.
 
-You control history entirely: disable recording, set the limit, search, pin,
-filter, remove individual entries, clear unpinned, or clear everything — from the
-popup or the options page.
+You control history entirely: disable recording, set the limit, search, filter,
+pin or remove individual entries, or clear everything — from the popup or the
+options page.
 
 ### Browser history (read on demand, not stored, optional)
 

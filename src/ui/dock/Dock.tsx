@@ -1,10 +1,12 @@
 import { useId } from 'react';
 import type { ReactNode } from 'react';
+import { PersonIcon } from '@primer/octicons-react';
 import type { GitHubContext } from '@/core/context';
 import { buildSegments } from '@/core/context';
 import { canonicalKeyFor } from '@/core/context/github-url';
 import type { Settings } from '@/core/settings';
 import { t } from '@/i18n';
+import { IconButton } from '@/ui/components/controls';
 import { DockNav } from './DockNav';
 import { DockSegments } from './DockSegments';
 import { Diagnostics } from './Diagnostics';
@@ -61,7 +63,6 @@ export function Dock({
             linkTarget={settings.historyLinkTarget}
             importBrowserHistory={settings.importBrowserHistory}
             involvedOnly={settings.historyInvolvedOnly}
-            onToggleInvolved={onToggleInvolved}
             onClose={onCloseHistory}
             headingId={historyHeadingId}
           />
@@ -79,6 +80,13 @@ export function Dock({
         >
           <span className="rd-dock__logo" aria-hidden="true" />
         </button>
+
+        <IconButton
+          icon={<PersonIcon size={16} />}
+          label={t('history.involvedOnly')}
+          active={settings.historyInvolvedOnly}
+          onClick={() => onToggleInvolved(!settings.historyInvolvedOnly)}
+        />
 
         <div className="rd-dock__content">
           {hasContext ? (

@@ -46,8 +46,6 @@ export const en = {
   'history.pin': 'Pin',
   'history.unpin': 'Unpin',
   'history.remove': 'Remove from history',
-  'history.clearUnpinned': 'Clear unpinned',
-  'history.clearAll': 'Clear all',
   'history.pinnedSection': 'Pinned',
   'history.recentSection': 'Recent',
   'history.openNewTab': 'Open in new tab',
@@ -57,7 +55,6 @@ export const en = {
   'history.visitsOne': '{0} visit',
   'history.visitsMany': '{0} visits',
   'history.showMore': 'Show {0} more',
-  'history.confirmClearAll': 'Clear all history, including pinned pages?',
 
   'position.right': 'Right',
   'position.left': 'Left',

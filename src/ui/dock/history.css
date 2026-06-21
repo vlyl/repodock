@@ -163,14 +163,6 @@
   color: var(--rd-fg-default);
 }
 
-.rd-hist__footer {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--rd-space-2);
-  padding: var(--rd-space-2) var(--rd-space-3);
-  border-top: 1px solid var(--rd-border-muted);
-}
-
 .rd-hist-item {
   display: flex;
   align-items: center;
@@ -235,31 +227,6 @@
 .rd-hist-item:hover .rd-hist-item__actions,
 .rd-hist-item:focus-within .rd-hist-item__actions {
   opacity: 1;
-}
-
-.rd-text-btn {
-  border: 0;
-  background: transparent;
-  color: var(--rd-accent-fg);
-  font-family: var(--rd-font);
-  font-size: var(--rd-font-size-sm);
-  cursor: pointer;
-  padding: 2px 4px;
-  border-radius: var(--rd-radius-sm);
-}
-.rd-text-btn:hover:not(:disabled) {
-  text-decoration: underline;
-}
-.rd-text-btn:focus-visible {
-  outline: 2px solid var(--rd-accent-fg);
-  outline-offset: 1px;
-}
-.rd-text-btn:disabled {
-  color: var(--rd-fg-subtle);
-  cursor: not-allowed;
-}
-.rd-text-btn--danger {
-  color: var(--rd-danger-fg);
 }
 
 /* Diagnostics. */

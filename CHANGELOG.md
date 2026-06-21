@@ -28,10 +28,10 @@ Initial release.
 - Recent-page navigator that pops up on demand: extension-owned, sanitized,
   deduplicated, stabilized recording merged with an optional, read-only import of
   the browser's github.com history (`history` permission, toggleable). The list
-  is grouped by repository and sorted newest-first, with search, pinning,
-  trimming, and clear actions. Each repository group is color-tinted, keeps its
-  name pinned while scrolling, and reveals five pages at a time on demand. An
-  optional **Only pages I'm involved in** filter narrows the list to your own
+  is grouped by repository and sorted newest-first, with search, pinning, and
+  per-entry removal. Each repository group is color-tinted, keeps its name pinned
+  while scrolling, and reveals five pages at a time on demand. An **Only pages I'm
+  involved in** filter (toggled from the dock) narrows the list to your own
   repositories and the issues / PRs / discussions you participate in. See
   [ADR-7](docs/adr/0007-import-browser-github-history.md).
 - Configurable repository-section quick-nav buttons (Code, Issues, Pull requests,

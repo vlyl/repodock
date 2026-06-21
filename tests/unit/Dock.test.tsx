@@ -44,6 +44,13 @@ describe('Dock', () => {
     );
   });
 
+  it('toggles the involved filter from the bar', async () => {
+    const user = userEvent.setup();
+    const props = renderDock();
+    await user.click(screen.getByLabelText("Only pages I'm involved in"));
+    expect(props.onToggleInvolved).toHaveBeenCalledWith(true);
+  });
+
   it('renders the recent list when the history popover is open', () => {
     renderDock({ historyOpen: true });
     expect(screen.getByRole('heading', { name: 'Recent GitHub pages' })).toBeInTheDocument();

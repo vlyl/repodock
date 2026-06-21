@@ -3,8 +3,6 @@ import type { CSSProperties, ReactNode } from 'react';
 import { SearchIcon, XIcon } from '@primer/octicons-react';
 import type { HistoryEntry } from '@/core/history';
 import {
-  clearAllHistory,
-  clearUnpinnedHistory,
   groupByRepository,
   isInvolvedEntry,
   pinEntry,
@@ -24,8 +22,9 @@ export interface HistoryPanelProps {
   currentKey?: string;
   linkTarget: LinkTarget;
   importBrowserHistory?: boolean;
-  /** When set, show a footer toggle that filters to the viewer's own pages. */
+  /** Filter the list to pages the viewer is involved with. */
   involvedOnly?: boolean;
+  /** When set, render an in-panel toggle for {@link involvedOnly} (used by the popup). */
   onToggleInvolved?: (next: boolean) => void;
   onClose?: () => void;
   headingId?: string;
@@ -78,7 +77,6 @@ export function HistoryPanel({
   );
 
   const hasAny = entries.length > 0;
-  const hasUnpinned = entries.some((entry) => !entry.pinned && ownedKeys.has(entry.key));
 
   const togglePin = (entry: HistoryEntry): void => {
     if (entry.pinned) void unpinEntry(entry.key);
@@ -87,10 +85,6 @@ export function HistoryPanel({
   };
   const remove = (entry: HistoryEntry): void => {
     void removeHistoryEntry(entry.key);
-  };
-  const clearUnpinned = (): void => void clearUnpinnedHistory();
-  const clearAll = (): void => {
-    if (window.confirm(t('history.confirmClearAll'))) void clearAllHistory();
   };
 
   const renderEntry = (entry: HistoryEntry): ReactNode => (
@@ -187,22 +181,6 @@ export function HistoryPanel({
             onChange={onToggleInvolved}
             label={t('history.involvedOnly')}
           />
-        </div>
-      )}
-
-      {hasAny && (
-        <div className="rd-hist__footer">
-          <button
-            type="button"
-            className="rd-text-btn"
-            onClick={clearUnpinned}
-            disabled={!hasUnpinned}
-          >
-            {t('history.clearUnpinned')}
-          </button>
-          <button type="button" className="rd-text-btn rd-text-btn--danger" onClick={clearAll}>
-            {t('history.clearAll')}
-          </button>
         </div>
       )}
     </div>
