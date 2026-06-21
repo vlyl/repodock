@@ -1,0 +1,122 @@
+/**
+ * English (initial locale) UI strings. Keys are stable identifiers; values are
+ * the user-facing copy. Placeholders use `{0}`, `{1}`, … for substitutions.
+ *
+ * This object is the single source of truth for in-UI copy and keeps the app
+ * localization-ready: additional locales can provide the same keys, and a
+ * locale resolver can be layered over {@link ../i18n/index.ts} later.
+ */
+export const en = {
+  'app.name': 'RepoDock',
+
+  'dock.expand': 'Expand dock',
+  'dock.collapse': 'Collapse dock',
+  'dock.hide': 'Hide dock',
+  'dock.history': 'Recent pages',
+  'dock.copyContext': 'Copy context',
+  'dock.copyUrl': 'Copy link',
+  'dock.copied': 'Copied',
+  'dock.settings': 'Settings',
+  'dock.menu': 'Dock actions',
+  'dock.unavailable': 'No repository context',
+  'dock.unavailableHint': 'Open a repository page to see its context.',
+  'dock.diagnostics': 'Diagnostics',
+  'dock.regionLabel': 'RepoDock context dock',
+
+  'history.title': 'Recent GitHub pages',
+  'history.searchPlaceholder': 'Search recent pages…',
+  'history.searchLabel': 'Search recent pages',
+  'history.empty': 'No recent pages yet.',
+  'history.emptyHint': 'Pages you visit on GitHub will appear here.',
+  'history.emptyFiltered': 'No pages match your search.',
+  'history.pin': 'Pin',
+  'history.unpin': 'Unpin',
+  'history.remove': 'Remove from history',
+  'history.clearUnpinned': 'Clear unpinned',
+  'history.clearAll': 'Clear all',
+  'history.pinnedSection': 'Pinned',
+  'history.recentSection': 'Recent',
+  'history.openNewTab': 'Open in new tab',
+  'history.current': 'Current page',
+  'history.close': 'Close',
+  'history.visitsOne': '{0} visit',
+  'history.visitsMany': '{0} visits',
+  'history.confirmClearAll': 'Clear all history, including pinned pages?',
+
+  'position.top': 'Top',
+  'position.right': 'Right',
+  'position.bottom': 'Bottom',
+  'position.left': 'Left',
+
+  'density.compact': 'Compact',
+  'density.comfortable': 'Comfortable',
+
+  'theme.system': 'Follow GitHub',
+  'theme.light': 'Light',
+  'theme.dark': 'Dark',
+
+  'linkTarget.current': 'Current tab',
+  'linkTarget.new': 'New tab',
+
+  'popup.heading': 'RepoDock',
+  'popup.visible': 'Show dock',
+  'popup.position': 'Dock position',
+  'popup.density': 'Density',
+  'popup.recordHistory': 'Record history',
+  'popup.openOptions': 'All settings',
+  'popup.openHistory': 'Recent pages',
+  'popup.notGitHub': 'Open a GitHub page to see its context.',
+  'popup.noContext': 'No repository context on this page.',
+  'popup.shortcutHint': 'Toggle the dock with {0}.',
+  'popup.shortcutUnset': 'No shortcut set',
+
+  'options.title': 'RepoDock settings',
+  'options.subtitle': 'Configure how the context dock looks and behaves.',
+  'options.section.appearance': 'Appearance',
+  'options.section.behavior': 'Behavior',
+  'options.section.history': 'History',
+  'options.section.data': 'Data & privacy',
+  'options.section.shortcuts': 'Keyboard shortcuts',
+  'options.section.advanced': 'Advanced',
+  'options.position': 'Dock position',
+  'options.positionHelp': 'Where the dock is anchored in the viewport.',
+  'options.density': 'Density',
+  'options.densityHelp': 'Comfortable adds more breathing room; compact is denser.',
+  'options.collapsed': 'Collapsed',
+  'options.collapsedHelp': 'Show only a compact summary until expanded. Persists across reloads.',
+  'options.showLabels': 'Show field labels',
+  'options.showLabelsHelp': 'Display prefixes such as “branch:” before values.',
+  'options.theme': 'Theme',
+  'options.themeHelp': 'Follow GitHub’s theme, or force light or dark.',
+  'options.recordHistory': 'Record recent pages',
+  'options.recordHistoryHelp': 'Keep a local list of GitHub pages you visit.',
+  'options.importBrowserHistory': 'Include browser history',
+  'options.importBrowserHistoryHelp':
+    'Also list your existing github.com pages from the browser history. Requires the history permission.',
+  'options.historyLimit': 'History limit',
+  'options.historyLimitHelp': 'Maximum number of unpinned pages to keep ({0}–{1}).',
+  'options.historyLinkTarget': 'Open history links in',
+  'options.developerDiagnostics': 'Developer diagnostics',
+  'options.developerDiagnosticsHelp': 'Show context source and confidence details.',
+  'options.shortcutsHelp': 'Customize shortcuts from your browser’s extension shortcuts page.',
+  'options.toggleShortcut': 'Toggle dock visibility',
+  'options.shortcutChrome': 'Open chrome://extensions/shortcuts to change it.',
+  'options.shortcutFirefox': 'Open about:addons → ⚙ → Manage Extension Shortcuts.',
+  'options.clearData': 'Clear local data',
+  'options.clearHistory': 'Clear history',
+  'options.clearHistoryHelp': 'Remove all recorded pages from this browser.',
+  'options.resetSettings': 'Reset settings to defaults',
+  'options.resetSettingsHelp': 'Restore every option to its default value.',
+  'options.confirmClearHistory': 'Remove all recorded pages from this browser?',
+  'options.confirmResetSettings': 'Reset all settings to their defaults?',
+  'options.saved': 'Saved',
+  'options.privacyNote':
+    'RepoDock stores history locally and never records page content, tokens, or session data. Only settings are synced.',
+
+  'common.on': 'On',
+  'common.off': 'Off',
+  'common.enabled': 'Enabled',
+  'common.disabled': 'Disabled',
+} as const;
+
+export type MessageKey = keyof typeof en;

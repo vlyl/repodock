@@ -1,0 +1,45 @@
+name: Publish to stores
+
+# Manual, opt-in publishing. Run from the Actions tab and choose whether to do a
+# dry run (authenticate only) or a real submission. Credentials come from
+# repository secrets; see .env.submit.example for the full list.
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Authenticate only, do not upload or submit'
+        type: boolean
+        default: true
+
+jobs:
+  publish:
+    name: Build, package, and submit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # Quality gate before any publish.
+      - run: pnpm run typecheck
+      - run: pnpm run test
+
+      - run: pnpm run zip:all
+
+      - name: Submit
+        run: ${{ inputs.dry_run && 'pnpm run submit:dry' || 'pnpm run submit' }}
+        env:
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
+          FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
+          EDGE_PRODUCT_ID: ${{ secrets.EDGE_PRODUCT_ID }}
+          EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
+          EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}

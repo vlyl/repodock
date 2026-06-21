@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  release:
+    name: Build and publish artifacts
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # Quality gates must pass before we cut a release.
+      - run: pnpm run typecheck
+      - run: pnpm run lint
+      - run: pnpm run test
+
+      # Produce store ZIPs (Chrome, Edge) and the Firefox add-on + sources ZIP.
+      - run: pnpm run zip:all
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          generate_release_notes: true
+          files: |
+            .output/*.zip

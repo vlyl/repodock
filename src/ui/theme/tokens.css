@@ -1,0 +1,92 @@
+/*
+ * GitHub-compatible design tokens.
+ *
+ * These are hand-authored to mirror GitHub Primer values rather than importing
+ * Primer's stylesheet, because the dock renders inside a Shadow Root where
+ * Primer's `:root`-scoped variables would not apply. Sizing is in explicit px,
+ * never rem, so GitHub's root font-size cannot rescale the dock.
+ */
+
+.rd-root {
+  /* Light theme (default). */
+  --rd-canvas: #ffffff;
+  --rd-canvas-subtle: #f6f8fa;
+  --rd-canvas-inset: #eef1f4;
+  --rd-fg-default: #1f2328;
+  --rd-fg-muted: #59636e;
+  --rd-fg-subtle: #6e7781;
+  --rd-fg-on-emphasis: #ffffff;
+  --rd-border-default: #d1d9e0;
+  --rd-border-muted: #d8dee4;
+  --rd-accent-fg: #0969da;
+  --rd-accent-emphasis: #0969da;
+  --rd-accent-subtle: #ddf4ff;
+  --rd-neutral-muted: rgba(129, 139, 152, 0.2);
+  --rd-success-fg: #1a7f37;
+  --rd-danger-fg: #d1242f;
+  --rd-danger-emphasis: #cf222e;
+  --rd-shadow: rgba(31, 35, 40, 0.12);
+  --rd-shadow-strong: rgba(31, 35, 40, 0.2);
+  --rd-overlay-bg: #ffffff;
+  --rd-backdrop: rgba(31, 35, 40, 0.15);
+
+  /* Non-color tokens. */
+  --rd-radius: 6px;
+  --rd-radius-sm: 4px;
+  --rd-radius-lg: 10px;
+  --rd-font:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji';
+  --rd-font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  --rd-font-size: 13px;
+  --rd-font-size-sm: 12px;
+  --rd-font-size-lg: 14px;
+  --rd-line-height: 1.45;
+  --rd-space-1: 4px;
+  --rd-space-2: 8px;
+  --rd-space-3: 12px;
+  --rd-space-4: 16px;
+  --rd-space-5: 20px;
+  --rd-control-height: 28px;
+  --rd-control-height-sm: 24px;
+  --rd-z: 2147483000;
+}
+
+.rd-root[data-rd-theme='dark'] {
+  --rd-canvas: #0d1117;
+  --rd-canvas-subtle: #161b22;
+  --rd-canvas-inset: #010409;
+  --rd-fg-default: #e6edf3;
+  --rd-fg-muted: #9198a1;
+  --rd-fg-subtle: #6e7681;
+  --rd-fg-on-emphasis: #ffffff;
+  --rd-border-default: #30363d;
+  --rd-border-muted: #21262d;
+  --rd-accent-fg: #4493f8;
+  --rd-accent-emphasis: #1f6feb;
+  --rd-accent-subtle: rgba(56, 139, 253, 0.15);
+  --rd-neutral-muted: rgba(110, 118, 129, 0.4);
+  --rd-success-fg: #3fb950;
+  --rd-danger-fg: #f85149;
+  --rd-danger-emphasis: #da3633;
+  --rd-shadow: rgba(1, 4, 9, 0.6);
+  --rd-shadow-strong: rgba(1, 4, 9, 0.85);
+  --rd-overlay-bg: #161b22;
+  --rd-backdrop: rgba(1, 4, 9, 0.5);
+}
+
+/* Denser spacing in compact mode. */
+.rd-root[data-rd-density='compact'] {
+  --rd-space-2: 6px;
+  --rd-space-3: 8px;
+  --rd-control-height: 24px;
+  --rd-font-size: 12px;
+}
+
+.rd-root,
+.rd-root *,
+.rd-root *::before,
+.rd-root *::after {
+  box-sizing: border-box;
+}

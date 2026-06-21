@@ -1,0 +1,226 @@
+/*
+ * Dock-specific styles. Injected into the content-script Shadow Root, so the
+ * `:host` reset fully isolates the dock from GitHub's inherited styles and
+ * prevents the dock's own styles from leaking out. Breadcrumb and history styles
+ * live in segments.css / history.css and are shared with the popup.
+ */
+
+:host {
+  /* Reset inherited styles for isolation. */
+  all: initial;
+}
+
+/*
+ * Force the host out of normal flow. As a custom (unknown) element it defaults
+ * to display:inline, which generates a ~1em line box at the top of the page —
+ * the host's own box is 0×0, but the line box pushes content down. `!important`
+ * beats both `all: initial` above and WXT's inline positioning styles. The dock
+ * itself renders via its own position: fixed, relative to the viewport.
+ */
+:host {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.rd-root {
+  font-family: var(--rd-font);
+  font-size: var(--rd-font-size);
+  line-height: var(--rd-line-height);
+  color: var(--rd-fg-default);
+  /* Let clicks pass through empty space; interactive UI re-enables below. */
+  pointer-events: none;
+}
+
+.rd-root *,
+.rd-root *::before,
+.rd-root *::after {
+  box-sizing: border-box;
+}
+
+.rd-dock {
+  position: fixed;
+  z-index: var(--rd-z);
+  display: flex;
+  flex-direction: column;
+  gap: var(--rd-space-2);
+  pointer-events: auto;
+}
+
+/* Position anchoring, honoring safe-area insets. */
+.rd-dock[data-position='top'] {
+  top: calc(env(safe-area-inset-top, 0px) + var(--rd-space-2));
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+}
+.rd-dock[data-position='bottom'] {
+  bottom: calc(env(safe-area-inset-bottom, 0px) + var(--rd-space-2));
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+  flex-direction: column-reverse;
+}
+.rd-dock[data-position='left'] {
+  left: calc(env(safe-area-inset-left, 0px) + var(--rd-space-2));
+  top: 50%;
+  transform: translateY(-50%);
+  flex-direction: column;
+  align-items: stretch;
+  width: min(340px, calc(100vw - 2 * var(--rd-space-3)));
+  max-height: min(calc(100vh - 2 * var(--rd-space-3)), 760px);
+}
+.rd-dock[data-position='right'] {
+  right: calc(env(safe-area-inset-right, 0px) + var(--rd-space-2));
+  top: 50%;
+  transform: translateY(-50%);
+  flex-direction: column;
+  align-items: stretch;
+  width: min(340px, calc(100vw - 2 * var(--rd-space-3)));
+  max-height: min(calc(100vh - 2 * var(--rd-space-3)), 760px);
+}
+
+/* The bar. */
+.rd-dock__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--rd-space-2);
+  max-width: min(calc(100vw - 2 * var(--rd-space-4)), 960px);
+  padding: var(--rd-space-1) var(--rd-space-2);
+  border: 1px solid var(--rd-border-default);
+  border-radius: var(--rd-radius-lg);
+  background: var(--rd-canvas);
+  box-shadow:
+    0 1px 3px var(--rd-shadow),
+    0 8px 24px var(--rd-shadow);
+}
+
+/* Vertical docks: a compact bar on top that wraps its actions, then the list. */
+.rd-dock[data-position='left'] .rd-dock__bar,
+.rd-dock[data-position='right'] .rd-dock__bar {
+  flex-wrap: wrap;
+  max-width: none;
+}
+.rd-dock[data-position='left'] .rd-dock__actions,
+.rd-dock[data-position='right'] .rd-dock__actions {
+  justify-content: flex-end;
+}
+
+/* The inline recent-pages list shown in vertical docks. */
+.rd-dock__list {
+  pointer-events: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  border: 1px solid var(--rd-border-default);
+  border-radius: var(--rd-radius-lg);
+  background: var(--rd-overlay-bg);
+  box-shadow:
+    0 1px 3px var(--rd-shadow),
+    0 8px 24px var(--rd-shadow);
+  overflow: hidden;
+}
+.rd-dock__list .rd-hist {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Brand handle. */
+.rd-dock__brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--rd-control-height);
+  height: var(--rd-control-height);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.rd-dock__brand:focus-visible {
+  outline: 2px solid var(--rd-accent-fg);
+  outline-offset: -1px;
+  border-radius: var(--rd-radius-sm);
+}
+.rd-dock__logo {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, var(--rd-accent-emphasis), var(--rd-accent-fg));
+  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.35);
+  position: relative;
+}
+.rd-dock__logo::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  top: 4px;
+  height: 2px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 0 rgba(255, 255, 255, 0.55);
+}
+
+/* Content region. */
+.rd-dock__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+.rd-dock__compact,
+.rd-dock__unavailable {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.rd-dock__unavailable {
+  color: var(--rd-fg-muted);
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* Actions. */
+.rd-dock__actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+/* Popover panel (history). */
+.rd-dock__panel {
+  pointer-events: auto;
+  width: min(380px, calc(100vw - 2 * var(--rd-space-4)));
+  max-height: min(70vh, 560px);
+  display: flex;
+  border: 1px solid var(--rd-border-default);
+  border-radius: var(--rd-radius-lg);
+  background: var(--rd-overlay-bg);
+  box-shadow: 0 8px 24px var(--rd-shadow-strong);
+  overflow: hidden;
+}
+
+/* Diagnostics block. */
+.rd-dock__diagnostics {
+  pointer-events: auto;
+  width: min(380px, calc(100vw - 2 * var(--rd-space-4)));
+  padding: var(--rd-space-3);
+  border: 1px solid var(--rd-border-default);
+  border-radius: var(--rd-radius-lg);
+  background: var(--rd-overlay-bg);
+  box-shadow: 0 8px 24px var(--rd-shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-root *,
+  .rd-root *::before,
+  .rd-root *::after {
+    transition: none !important;
+  }
+}

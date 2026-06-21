@@ -1,0 +1,103 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.rd-options {
+  min-height: 100vh;
+  background: var(--rd-canvas-inset);
+  color: var(--rd-fg-default);
+  font-family: var(--rd-font);
+  font-size: var(--rd-font-size-lg);
+  line-height: var(--rd-line-height);
+}
+
+.rd-options__container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--rd-space-5) var(--rd-space-4) 64px;
+}
+
+.rd-options__header {
+  display: flex;
+  align-items: center;
+  gap: var(--rd-space-3);
+  margin-bottom: var(--rd-space-5);
+}
+
+.rd-options__logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+.rd-options__logo::after {
+  left: 6px;
+  right: 6px;
+  top: 8px;
+  height: 3px;
+  box-shadow: 0 8px 0 rgba(255, 255, 255, 0.55);
+}
+
+.rd-options__title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.rd-options__subtitle {
+  margin: 2px 0 0;
+  color: var(--rd-fg-muted);
+  font-size: var(--rd-font-size);
+}
+
+.rd-options__section {
+  margin-bottom: var(--rd-space-4);
+  border: 1px solid var(--rd-border-default);
+  border-radius: var(--rd-radius-lg);
+  background: var(--rd-canvas);
+  overflow: hidden;
+}
+
+.rd-options__section-title {
+  margin: 0;
+  padding: var(--rd-space-3) var(--rd-space-4);
+  font-size: var(--rd-font-size);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--rd-fg-muted);
+  background: var(--rd-canvas-subtle);
+  border-bottom: 1px solid var(--rd-border-muted);
+}
+
+.rd-options__rows {
+  padding: 0 var(--rd-space-4);
+}
+
+.rd-options__rows .rd-field {
+  border-bottom: 1px solid var(--rd-border-muted);
+}
+.rd-options__rows .rd-field:last-child {
+  border-bottom: 0;
+}
+
+.rd-options__shortcut {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid var(--rd-border-default);
+  border-radius: var(--rd-radius-sm);
+  background: var(--rd-canvas-subtle);
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-font-size-sm);
+}
+
+.rd-options__privacy {
+  margin: var(--rd-space-4) 0 0;
+  padding: var(--rd-space-3) var(--rd-space-4);
+  border-radius: var(--rd-radius);
+  background: var(--rd-accent-subtle);
+  color: var(--rd-fg-muted);
+  font-size: var(--rd-font-size);
+}

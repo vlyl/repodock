@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "RepoDock"
+  },
+  "extDescription": {
+    "message": "A persistent, configurable GitHub context dock that keeps your current repository, ref, location, and path visible while you browse."
+  },
+  "cmdToggleDock": {
+    "message": "Toggle the RepoDock dock"
+  },
+  "actionTitle": {
+    "message": "RepoDock — GitHub context dock"
+  }
+}

@@ -1,0 +1,70 @@
+/* Context breadcrumb styles, shared by the dock and the popup. */
+
+.rd-segments {
+  display: flex;
+  align-items: center;
+  gap: var(--rd-space-1);
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+}
+.rd-segments::-webkit-scrollbar {
+  display: none;
+}
+.rd-segments--wrap {
+  flex-wrap: wrap;
+  white-space: normal;
+  overflow-x: visible;
+}
+.rd-segments__group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--rd-space-1);
+  min-width: 0;
+}
+.rd-segments__sep {
+  color: var(--rd-fg-subtle);
+  user-select: none;
+}
+.rd-seg {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--rd-fg-default);
+  text-decoration: none;
+  border-radius: var(--rd-radius-sm);
+  padding: 1px 3px;
+}
+a.rd-seg:hover {
+  color: var(--rd-accent-fg);
+  background: var(--rd-accent-subtle);
+  text-decoration: underline;
+}
+a.rd-seg:focus-visible {
+  outline: 2px solid var(--rd-accent-fg);
+  outline-offset: -1px;
+}
+.rd-seg__label {
+  color: var(--rd-fg-muted);
+  font-size: var(--rd-font-size-sm);
+}
+.rd-seg--repo .rd-seg__text {
+  font-weight: 600;
+}
+.rd-seg--ref .rd-seg__text,
+.rd-seg--crumb .rd-seg__text {
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-font-size-sm);
+}
+.rd-seg--file .rd-seg__text {
+  font-weight: 600;
+}
+.rd-seg--lines .rd-seg__text {
+  font-family: var(--rd-font-mono);
+  color: var(--rd-fg-muted);
+}
