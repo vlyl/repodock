@@ -80,8 +80,8 @@ export const en = {
   'popup.openHistory': 'Recent pages',
   'popup.notGitHub': 'Open a GitHub page to see its context.',
   'popup.noContext': 'No repository context on this page.',
-  'popup.shortcutHint': 'Toggle the dock with {0}.',
-  'popup.shortcutUnset': 'No shortcut set',
+  'popup.shortcutLabel': 'Toggle dock',
+  'popup.shortcutUnset': 'No keyboard shortcut set',
 
   'options.title': 'RepoDock settings',
   'options.subtitle': 'Configure how the context dock looks and behaves.',

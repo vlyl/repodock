@@ -11,19 +11,26 @@ body {
 .rd-popup {
   width: 340px;
   max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--rd-space-3);
+  padding: var(--rd-space-3);
   background: var(--rd-canvas);
   color: var(--rd-fg-default);
   font-family: var(--rd-font);
   font-size: var(--rd-font-size);
 }
+.rd-popup--history {
+  gap: 0;
+  padding: 0;
+}
 
+/* Header: brand on the left, quick access to all settings on the right. */
 .rd-popup__header {
   display: flex;
   align-items: center;
-  padding: var(--rd-space-3);
-  border-bottom: 1px solid var(--rd-border-muted);
+  justify-content: space-between;
 }
-
 .rd-popup__brand {
   display: inline-flex;
   align-items: center;
@@ -32,12 +39,13 @@ body {
   font-size: var(--rd-font-size-lg);
 }
 
-.rd-popup__context {
+/* Current-context card. */
+.rd-popup__context-card {
   padding: var(--rd-space-3);
-  border-bottom: 1px solid var(--rd-border-muted);
+  border: 1px solid var(--rd-border-default);
+  border-radius: var(--rd-radius-lg);
   background: var(--rd-canvas-subtle);
 }
-
 .rd-popup__context-title {
   margin-bottom: var(--rd-space-2);
   font-weight: 600;
@@ -45,16 +53,57 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
 .rd-popup__muted {
   margin: 0;
   color: var(--rd-fg-muted);
 }
 
-.rd-popup__controls {
-  padding: var(--rd-space-1) var(--rd-space-3);
+/* Primary action: open the recent-pages list. */
+.rd-popup__recent {
+  display: flex;
+  align-items: center;
+  gap: var(--rd-space-2);
+  width: 100%;
+  padding: var(--rd-space-2) var(--rd-space-3);
+  border: 1px solid var(--rd-border-default);
+  border-radius: var(--rd-radius-lg);
+  background: var(--rd-canvas);
+  color: var(--rd-fg-default);
+  font-family: var(--rd-font);
+  font-size: var(--rd-font-size);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
+}
+.rd-popup__recent:hover {
+  background: var(--rd-canvas-subtle);
+}
+.rd-popup__recent:focus-visible {
+  outline: 2px solid var(--rd-accent-fg);
+  outline-offset: 1px;
+}
+.rd-popup__recent .rd-popup__recent-icon {
+  display: inline-flex;
+  color: var(--rd-accent-fg);
+}
+.rd-popup__recent-label {
+  flex: 1;
+  text-align: left;
+}
+.rd-popup__recent .rd-popup__recent-chevron {
+  display: inline-flex;
+  color: var(--rd-fg-muted);
 }
 
+/* Settings rows, grouped in a single card. */
+.rd-popup__controls {
+  padding: 0 var(--rd-space-3);
+  border: 1px solid var(--rd-border-default);
+  border-radius: var(--rd-radius-lg);
+  background: var(--rd-canvas);
+}
 .rd-popup__controls .rd-field {
   border-bottom: 1px solid var(--rd-border-muted);
 }
@@ -62,21 +111,32 @@ body {
   border-bottom: 0;
 }
 
-.rd-popup__footer {
-  display: flex;
-  justify-content: space-between;
-  padding: var(--rd-space-2) var(--rd-space-3);
-  border-top: 1px solid var(--rd-border-muted);
-}
-
+/* Keyboard-shortcut footer. */
 .rd-popup__shortcut {
+  display: flex;
+  align-items: center;
+  gap: var(--rd-space-2);
   margin: 0;
-  padding: 0 var(--rd-space-3) var(--rd-space-3);
+  padding: 0 var(--rd-space-1);
   font-size: var(--rd-font-size-sm);
   color: var(--rd-fg-muted);
 }
+.rd-kbd {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border: 1px solid var(--rd-border-default);
+  border-bottom-width: 2px;
+  border-radius: var(--rd-radius-sm);
+  background: var(--rd-canvas-subtle);
+  color: var(--rd-fg-default);
+  font-family:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  font-size: var(--rd-font-size-sm);
+}
 
+/* History view fills the popup with no extra chrome. */
 .rd-popup__history {
-  height: 420px;
+  height: 460px;
   display: flex;
 }

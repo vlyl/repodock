@@ -14,8 +14,6 @@ function renderDock(overrides: Partial<Parameters<typeof Dock>[0]> = {}) {
     historyOpen: false,
     onToggleHistory: vi.fn(),
     onCloseHistory: vi.fn(),
-    onHide: vi.fn(),
-    onOpenSettings: vi.fn(),
     ...overrides,
   };
   render(<Dock {...props} />);
@@ -30,22 +28,19 @@ describe('Dock', () => {
     expect(screen.getByText('facebook/react')).toBeInTheDocument();
   });
 
-  it('copies the context summary', async () => {
-    const user = userEvent.setup();
-    renderDock();
-    await user.click(screen.getByLabelText('Copy context'));
-    // user-event provides an in-memory clipboard we can read back.
-    expect(await navigator.clipboard.readText()).toContain('facebook/react');
-  });
-
-  it('invokes hide and history toggles', async () => {
+  it('toggles the recent list from the brand handle', async () => {
     const user = userEvent.setup();
     const props = renderDock();
-    await user.click(screen.getByLabelText('Hide dock'));
-    expect(props.onHide).toHaveBeenCalledOnce();
-    // Both the toolbar icon and the brand handle toggle the recent list.
-    await user.click(screen.getAllByLabelText('Recent pages')[0]!);
+    await user.click(screen.getByLabelText('Recent pages'));
     expect(props.onToggleHistory).toHaveBeenCalled();
+  });
+
+  it('renders the section quick-nav inline on a repository page', () => {
+    renderDock();
+    expect(screen.getByRole('link', { name: 'Issues' })).toHaveAttribute(
+      'href',
+      'https://github.com/facebook/react/issues',
+    );
   });
 
   it('renders the recent list when the history popover is open', () => {

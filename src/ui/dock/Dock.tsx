@@ -1,13 +1,10 @@
 import { useId } from 'react';
 import type { ReactNode } from 'react';
-import { CheckIcon, CopyIcon, EyeClosedIcon, HistoryIcon, ToolsIcon } from '@primer/octicons-react';
 import type { GitHubContext } from '@/core/context';
-import { buildSegments, contextSummary } from '@/core/context';
+import { buildSegments } from '@/core/context';
 import { canonicalKeyFor } from '@/core/context/github-url';
 import type { Settings } from '@/core/settings';
 import { t } from '@/i18n';
-import { IconButton } from '@/ui/components/controls';
-import { useCopy } from '@/ui/hooks/useCopy';
 import { DockNav } from './DockNav';
 import { DockSegments } from './DockSegments';
 import { Diagnostics } from './Diagnostics';
@@ -19,15 +16,14 @@ export interface DockProps {
   historyOpen: boolean;
   onToggleHistory: () => void;
   onCloseHistory: () => void;
-  onHide: () => void;
-  onOpenSettings: () => void;
 }
 
 /**
- * The compact dock, anchored to the bottom-left/right corner. When auto-hide is
- * on it collapses to a small handle until hovered (CSS-driven). The recent list
- * opens on demand and pops up above the bar, so the dock never covers GitHub's
- * content unless the user opens it.
+ * The compact dock, anchored to the bottom-left/right corner. A single bar holds
+ * the brand (which toggles the recent list), the live context, and the
+ * configurable GitHub section quick-nav. Hiding and settings live in the toolbar
+ * popup; the recent list pops up above the bar on demand. When auto-hide is on
+ * the bar collapses to a small handle until hovered (CSS-driven).
  */
 export function Dock({
   context,
@@ -35,10 +31,7 @@ export function Dock({
   historyOpen,
   onToggleHistory,
   onCloseHistory,
-  onHide,
-  onOpenSettings,
 }: DockProps): ReactNode {
-  const { copied, copy } = useCopy();
   const historyHeadingId = useId();
 
   const segments = context ? buildSegments(context, { showLabels: settings.showLabels }) : [];
@@ -71,8 +64,6 @@ export function Dock({
         </div>
       )}
 
-      {context?.repository && <DockNav context={context} sections={settings.navSections} />}
-
       <div className="rd-dock__bar">
         <button
           type="button"
@@ -95,29 +86,12 @@ export function Dock({
           )}
         </div>
 
-        <div className="rd-dock__actions">
-          {hasContext && (
-            <IconButton
-              icon={copied ? <CheckIcon size={16} /> : <CopyIcon size={16} />}
-              label={copied ? t('dock.copied') : t('dock.copyContext')}
-              onClick={() => {
-                if (context) void copy(contextSummary(context));
-              }}
-            />
-          )}
-          <IconButton
-            icon={<HistoryIcon size={16} />}
-            label={t('dock.history')}
-            active={historyOpen}
-            onClick={onToggleHistory}
-          />
-          <IconButton
-            icon={<ToolsIcon size={16} />}
-            label={t('dock.settings')}
-            onClick={onOpenSettings}
-          />
-          <IconButton icon={<EyeClosedIcon size={16} />} label={t('dock.hide')} onClick={onHide} />
-        </div>
+        {context?.repository && settings.navSections.length > 0 && (
+          <>
+            <span className="rd-dock__divider" aria-hidden="true" />
+            <DockNav context={context} sections={settings.navSections} />
+          </>
+        )}
       </div>
     </div>
   );

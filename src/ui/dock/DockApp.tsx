@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import { updateSettings } from '@/core/settings';
 import { t } from '@/i18n';
 import type { ContextController } from '@/lib/context-controller';
-import { openOptionsPage } from '@/lib/messaging';
 import { useResolvedTheme } from '@/ui/theme/useTheme';
 import { useSettings } from '@/ui/hooks/useSettings';
 import { useContextController } from '@/ui/hooks/useContextController';
@@ -37,8 +36,6 @@ export function DockApp({ controller }: DockAppProps): ReactNode {
         historyOpen={settings.recentOpen}
         onToggleHistory={() => void updateSettings({ recentOpen: !settings.recentOpen })}
         onCloseHistory={() => void updateSettings({ recentOpen: false })}
-        onHide={() => void updateSettings({ visible: false })}
-        onOpenSettings={() => void openOptionsPage()}
       />
     </div>
   );

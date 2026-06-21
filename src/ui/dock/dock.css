@@ -58,12 +58,12 @@
   align-items: flex-end;
 }
 
-/* The bar (compact horizontal pill). */
+/* The bar (single horizontal pill: brand + context + section nav). */
 .rd-dock__bar {
   display: flex;
   align-items: center;
   gap: var(--rd-space-2);
-  max-width: min(560px, calc(100vw - 2 * var(--rd-space-4)));
+  max-width: min(760px, calc(100vw - 2 * var(--rd-space-4)));
   padding: var(--rd-space-1) var(--rd-space-2);
   border: 1px solid var(--rd-border-default);
   border-radius: var(--rd-radius-lg);
@@ -81,7 +81,7 @@
  * the bar to just the logo handle so it barely covers the page.
  */
 .rd-dock[data-autohide='true']:not([data-history-open='true']):not(:hover) .rd-dock__content,
-.rd-dock[data-autohide='true']:not([data-history-open='true']):not(:hover) .rd-dock__actions,
+.rd-dock[data-autohide='true']:not([data-history-open='true']):not(:hover) .rd-dock__divider,
 .rd-dock[data-autohide='true']:not([data-history-open='true']):not(:hover) .rd-dock__nav {
   display: none;
 }
@@ -107,21 +107,12 @@
   min-height: 0;
 }
 
-/* Repository section quick-nav, stacked just above the bar. */
+/* Repository section quick-nav, inline at the end of the bar. */
 .rd-dock__nav {
-  pointer-events: auto;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: 2px;
-  max-width: min(560px, calc(100vw - 2 * var(--rd-space-4)));
-  padding: var(--rd-space-1);
-  border: 1px solid var(--rd-border-default);
-  border-radius: var(--rd-radius-lg);
-  background: var(--rd-canvas);
-  box-shadow:
-    0 1px 3px var(--rd-shadow),
-    0 8px 24px var(--rd-shadow);
+  flex-shrink: 0;
 }
 .rd-nav-btn {
   display: inline-flex;
@@ -213,12 +204,13 @@
   font-style: italic;
 }
 
-/* Actions. */
-.rd-dock__actions {
-  display: flex;
-  align-items: center;
-  gap: 2px;
+/* Divider between the context and the section nav. */
+.rd-dock__divider {
   flex-shrink: 0;
+  width: 1px;
+  align-self: stretch;
+  margin: 2px 0;
+  background: var(--rd-border-muted);
 }
 
 @media (prefers-reduced-motion: reduce) {

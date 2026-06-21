@@ -1,12 +1,18 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { ArrowLeftIcon, ArrowRightIcon } from '@primer/octicons-react';
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ChevronRightIcon,
+  GearIcon,
+  HistoryIcon,
+} from '@primer/octicons-react';
 import { browser } from '#imports';
 import { buildSegments, canonicalKeyFor, contextTitle } from '@/core/context';
 import type { DockPosition, Density } from '@/core/settings';
 import { updateSettings } from '@/core/settings';
 import { t } from '@/i18n';
-import { Field, SegmentedControl, Toggle } from '@/ui/components/controls';
+import { Field, IconButton, SegmentedControl, Toggle } from '@/ui/components/controls';
 import { DockSegments } from '@/ui/dock/DockSegments';
 import { HistoryPanel } from '@/ui/dock/HistoryPanel';
 import { useCommandShortcut } from '@/ui/hooks/useCommandShortcut';
@@ -39,16 +45,13 @@ export function App(): ReactNode {
     void browser.runtime.openOptionsPage().then(() => window.close());
   };
 
-  return (
-    <div className="rd-root rd-popup" data-rd-theme={theme} data-rd-density={settings.density}>
-      <header className="rd-popup__header">
-        <span className="rd-popup__brand">
-          <span className="rd-dock__logo" aria-hidden="true" />
-          {t('popup.heading')}
-        </span>
-      </header>
-
-      {view === 'history' ? (
+  if (view === 'history') {
+    return (
+      <div
+        className="rd-root rd-popup rd-popup--history"
+        data-rd-theme={theme}
+        data-rd-density={settings.density}
+      >
         <div className="rd-popup__history">
           <HistoryPanel
             currentKey={context ? canonicalKeyFor(context.safeUrl) : undefined}
@@ -57,85 +60,105 @@ export function App(): ReactNode {
             onClose={() => setView('main')}
           />
         </div>
-      ) : (
-        <>
-          <section className="rd-popup__context" aria-label="Current context">
-            {loading ? (
-              <p className="rd-popup__muted">…</p>
-            ) : context ? (
-              <>
-                <div className="rd-popup__context-title">{contextTitle(context)}</div>
-                <DockSegments
-                  segments={buildSegments(context, { showLabels: settings.showLabels })}
-                />
-              </>
-            ) : isGitHub ? (
-              <p className="rd-popup__muted">{t('popup.noContext')}</p>
-            ) : (
-              <p className="rd-popup__muted">{t('popup.notGitHub')}</p>
-            )}
-          </section>
+      </div>
+    );
+  }
 
-          <section className="rd-popup__controls">
-            <Field
+  return (
+    <div className="rd-root rd-popup" data-rd-theme={theme} data-rd-density={settings.density}>
+      <header className="rd-popup__header">
+        <span className="rd-popup__brand">
+          <span className="rd-dock__logo" aria-hidden="true" />
+          {t('popup.heading')}
+        </span>
+        <IconButton
+          icon={<GearIcon size={16} />}
+          label={t('popup.openOptions')}
+          onClick={openOptions}
+        />
+      </header>
+
+      <section className="rd-popup__context-card" aria-label="Current context">
+        {loading ? (
+          <p className="rd-popup__muted">…</p>
+        ) : context ? (
+          <>
+            <div className="rd-popup__context-title">{contextTitle(context)}</div>
+            <DockSegments segments={buildSegments(context, { showLabels: settings.showLabels })} />
+          </>
+        ) : isGitHub ? (
+          <p className="rd-popup__muted">{t('popup.noContext')}</p>
+        ) : (
+          <p className="rd-popup__muted">{t('popup.notGitHub')}</p>
+        )}
+      </section>
+
+      <button type="button" className="rd-popup__recent" onClick={() => setView('history')}>
+        <span className="rd-popup__recent-icon" aria-hidden="true">
+          <HistoryIcon size={16} />
+        </span>
+        <span className="rd-popup__recent-label">{t('popup.openHistory')}</span>
+        <span className="rd-popup__recent-chevron" aria-hidden="true">
+          <ChevronRightIcon size={16} />
+        </span>
+      </button>
+
+      <section className="rd-popup__controls">
+        <Field
+          label={t('popup.visible')}
+          control={
+            <Toggle
+              checked={settings.visible}
+              onChange={(checked) => void updateSettings({ visible: checked })}
               label={t('popup.visible')}
-              control={
-                <Toggle
-                  checked={settings.visible}
-                  onChange={(checked) => void updateSettings({ visible: checked })}
-                  label={t('popup.visible')}
-                />
-              }
             />
-            <Field
-              label={t('popup.position')}
-              control={
-                <SegmentedControl
-                  ariaLabel={t('popup.position')}
-                  value={settings.position}
-                  options={POSITION_OPTIONS}
-                  iconsOnly
-                  onChange={(value) => void updateSettings({ position: value })}
-                />
-              }
+          }
+        />
+        <Field
+          label={t('popup.position')}
+          control={
+            <SegmentedControl
+              ariaLabel={t('popup.position')}
+              value={settings.position}
+              options={POSITION_OPTIONS}
+              iconsOnly
+              onChange={(value) => void updateSettings({ position: value })}
             />
-            <Field
-              label={t('popup.density')}
-              control={
-                <SegmentedControl
-                  ariaLabel={t('popup.density')}
-                  value={settings.density}
-                  options={DENSITY_OPTIONS}
-                  onChange={(value) => void updateSettings({ density: value })}
-                />
-              }
+          }
+        />
+        <Field
+          label={t('popup.density')}
+          control={
+            <SegmentedControl
+              ariaLabel={t('popup.density')}
+              value={settings.density}
+              options={DENSITY_OPTIONS}
+              onChange={(value) => void updateSettings({ density: value })}
             />
-            <Field
+          }
+        />
+        <Field
+          label={t('popup.recordHistory')}
+          control={
+            <Toggle
+              checked={settings.recordHistory}
+              onChange={(checked) => void updateSettings({ recordHistory: checked })}
               label={t('popup.recordHistory')}
-              control={
-                <Toggle
-                  checked={settings.recordHistory}
-                  onChange={(checked) => void updateSettings({ recordHistory: checked })}
-                  label={t('popup.recordHistory')}
-                />
-              }
             />
-          </section>
+          }
+        />
+      </section>
 
-          <footer className="rd-popup__footer">
-            <button type="button" className="rd-text-btn" onClick={() => setView('history')}>
-              {t('popup.openHistory')}
-            </button>
-            <button type="button" className="rd-text-btn" onClick={openOptions}>
-              {t('popup.openOptions')}
-            </button>
-          </footer>
-
-          <p className="rd-popup__shortcut">
-            {shortcut ? t('popup.shortcutHint', shortcut) : t('popup.shortcutUnset')}
-          </p>
-        </>
-      )}
+      <p className="rd-popup__shortcut">
+        {shortcut ? (
+          <>
+            <span>{t('popup.shortcutLabel')}</span>
+            <kbd className="rd-kbd">{shortcut}</kbd>
+          </>
+        ) : (
+          <span>{t('popup.shortcutUnset')}</span>
+        )}
+      </p>
     </div>
   );
 }

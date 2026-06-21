@@ -39,14 +39,19 @@ test.describe('content dock', () => {
     await expect(page.getByRole('heading', { name: 'Recent GitHub pages' })).toBeHidden();
   });
 
-  test('can be hidden via the hide control', async ({ context }) => {
+  test('shows the GitHub section quick-nav inline in the bar', async ({ context }) => {
     await serveGitHub(context);
     const page = await context.newPage();
     await page.goto(FILE_URL);
 
-    await expect(page.locator('.rd-dock')).toBeVisible();
     await page.locator('.rd-dock').hover();
-    await page.getByLabel('Hide dock').click();
-    await expect(page.locator('.rd-dock')).toHaveCount(0);
+    // The section nav shares the single bar (no separate nav pill above it).
+    await expect(page.locator('.rd-dock__bar .rd-dock__nav')).toBeVisible();
+    const nav = page.locator('.rd-dock__nav');
+    await expect(nav.getByRole('link', { name: 'Issues' })).toHaveAttribute(
+      'href',
+      'https://github.com/facebook/react/issues',
+    );
+    await expect(nav.getByRole('link', { name: 'Code' })).toBeVisible();
   });
 });

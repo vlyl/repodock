@@ -82,15 +82,16 @@ Then load the unpacked extension:
 
 ## Usage
 
-- The dock sits in the bottom-left corner of any `github.com` page. Hover it to
-  expand the bar; use the **logo** or **clock** to pop up recent pages, the
-  **copy** icon to copy a context string, the **gear** to open settings, and the
-  **eye** to hide.
+- The dock sits in the bottom-left corner of any `github.com` page as a single
+  bar: the **logo** pops up the recent-pages list, the live **context** shows
+  where you are, and the inline **section buttons** (Code, Issues, Pull requests,
+  …) jump anywhere in the current repository.
 - Toggle visibility anywhere with the keyboard shortcut (default `Alt+Shift+D`;
   change it at `chrome://extensions/shortcuts` or Firefox's _Manage Extension
   Shortcuts_).
-- The toolbar **popup** offers quick toggles (visibility, position, density,
-  history) and a context preview for the active tab.
+- The toolbar **popup** is the control center — show/hide the dock, switch side
+  and density, toggle history recording, open the recent list, and reach all
+  settings — with a context preview for the active tab.
 
 ## Development
 
