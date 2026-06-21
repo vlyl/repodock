@@ -62,6 +62,15 @@
 .rd-hist__section {
   margin-top: var(--rd-space-2);
 }
+/*
+ * The first group sits flush at the scroll top so its at-rest gap to the search
+ * box equals the gap a sticky header shows once the list is scrolled (a stuck
+ * header pins to the scroll top, dropping this margin). Keeps the spacing from
+ * jumping between the initial and scrolled states.
+ */
+.rd-hist__scroll > .rd-hist__section:first-child {
+  margin-top: 0;
+}
 .rd-hist__section-title {
   display: flex;
   align-items: center;
