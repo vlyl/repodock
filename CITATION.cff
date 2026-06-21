@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: 'If you use RepoDock, please cite this repository.'
+title: 'RepoDock'
+abstract: >-
+  RepoDock is a free, open-source browser extension for Chrome, Edge, and
+  Firefox that pins an always-visible context bar to GitHub, showing the current
+  repository, branch or tag, page location, file path, and line range, with a
+  private history of recently visited pages and one-click navigation to any
+  repository section.
+type: software
+authors:
+  - name: 'RepoDock contributors'
+repository-code: 'https://github.com/vlyl/repodock'
+url: 'https://github.com/vlyl/repodock'
+license: MIT
+version: '0.1.0'
+date-released: '2026-06-21'
+keywords:
+  - github
+  - browser-extension
+  - chrome-extension
+  - firefox-extension
+  - edge-extension
+  - manifest-v3
+  - developer-tools
+  - productivity

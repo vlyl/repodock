@@ -1,11 +1,19 @@
-# RepoDock
+# RepoDock — a GitHub context dock for Chrome, Edge & Firefox
 
-A persistent, configurable **GitHub context dock**. RepoDock adds a fixed UI to
-GitHub that always shows where you are — repository, ref, location, path, file,
-line range, and item identity — no matter how far you scroll or how GitHub's
-client-side navigation moves you around.
+[![CI](https://github.com/vlyl/repodock/actions/workflows/ci.yml/badge.svg)](https://github.com/vlyl/repodock/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Manifest V3](https://img.shields.io/badge/manifest-v3-success.svg)](https://developer.chrome.com/docs/extensions/develop/migrate/what-is-mv3)
+[![Browsers: Chrome · Edge · Firefox](https://img.shields.io/badge/browsers-Chrome%20%C2%B7%20Edge%20%C2%B7%20Firefox-informational.svg)](#browser-support)
 
-![The dock on a file page](docs/images/dock-example.png)
+**RepoDock is a free, open-source browser extension for Chrome, Edge, and Firefox
+that pins an always-visible context bar to GitHub.** It shows exactly where you
+are — repository, branch / tag / commit, page location (Code, Pull Request,
+Issue, Actions…), file path, and line range — no matter how far you scroll or how
+GitHub's client-side navigation moves you around. It also keeps a private,
+local history of the GitHub pages you've visited and gives you one-click
+quick-nav to any section of the current repository.
+
+![RepoDock GitHub context dock showing the repository, branch, and file path pinned to the corner of a GitHub file page, with a grouped recent-pages list](docs/images/dock-example.png)
 
 > `facebook/react · branch main · Code · packages / react / src / React.js`
 
@@ -43,6 +51,19 @@ local history of the GitHub pages you've visited.
 - **Private by design** — history is stored locally and never synced; only
   settings sync. No page content, comments, tokens, or session data are ever
   recorded.
+
+## Who it's for
+
+RepoDock helps anyone who spends time navigating GitHub in the browser:
+
+- **Developers reviewing pull requests** across many files who lose track of the
+  branch, file, or line as the page scrolls.
+- **Open-source maintainers** juggling several repositories who want one-click
+  jumps between Issues, Pull requests, Actions, and Releases.
+- **Engineers doing code review or auditing** who need an accurate, never-stale
+  breadcrumb and a fast way to revisit exact file and line locations.
+- **Anyone who reads a lot of code on GitHub** and wants a private, searchable
+  history of recently visited pages, grouped by repository.
 
 ## Browser support
 
@@ -150,6 +171,56 @@ history** setting it reads your github.com history (only) locally to fill the
 recent list — it never reads non-github.com entries, deletes history, or
 transmits anything. See [`docs/privacy.md`](docs/privacy.md).
 
+## FAQ
+
+### What is RepoDock?
+
+RepoDock is a free, open-source browser extension that adds a persistent context
+bar to GitHub. It always shows your current repository, branch or tag, page
+location, file path, and line range, and offers one-click navigation plus a
+private history of recently visited GitHub pages.
+
+### Which browsers does RepoDock support?
+
+Chrome, Microsoft Edge, and Firefox, all on Manifest V3. The codebase is also
+architecture-compatible with Safari, though Safari is not a v1 release target.
+
+### Is RepoDock free and open source?
+
+Yes. RepoDock is MIT-licensed and the full source is on GitHub. It is an
+independent project and is not affiliated with GitHub.
+
+### Does RepoDock collect or send my data?
+
+No. RepoDock makes no network requests and stores everything locally. It never
+records page content, issue or pull-request text, comments, tokens, or session
+data — only your settings sync, through the browser's own settings sync.
+
+### How is RepoDock different from Refined GitHub?
+
+RepoDock is a focused, single-purpose tool: an accurate, always-visible context
+bar, a private recent-pages history, and section quick-nav. It does not restyle
+GitHub's pages or depend on Refined GitHub, and it is built to never show stale
+context during GitHub's client-side (Turbo) navigation.
+
+### Does RepoDock keep the GitHub breadcrumb visible while scrolling?
+
+Yes — that's the core feature. GitHub's own breadcrumb and branch picker scroll
+out of view; RepoDock keeps an accurate summary pinned to the corner of the
+viewport at all times.
+
+### How do I install RepoDock?
+
+Until it's published on the extension stores, build it from source with pnpm and
+load the unpacked extension. See [Install (from source)](#install-from-source).
+
+### How do I keep a history of the GitHub pages I've visited?
+
+RepoDock records a private, local list of GitHub pages, grouped by repository and
+sorted newest-first, with search and pinning. You can optionally include your
+existing github.com browser history.
+
 ## License
 
-[MIT](LICENSE) © RepoDock contributors. Not affiliated with GitHub.
+[MIT](LICENSE) © RepoDock contributors. Not affiliated with GitHub. "GitHub" is a
+trademark of GitHub, Inc.

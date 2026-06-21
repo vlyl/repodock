@@ -7,11 +7,33 @@
   "private": true,
   "license": "MIT",
   "author": "RepoDock contributors",
-  "homepage": "https://github.com/repodock/repodock",
+  "homepage": "https://github.com/vlyl/repodock#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/repodock/repodock.git"
+    "url": "git+https://github.com/vlyl/repodock.git"
   },
+  "bugs": {
+    "url": "https://github.com/vlyl/repodock/issues"
+  },
+  "keywords": [
+    "github",
+    "browser-extension",
+    "chrome-extension",
+    "firefox-extension",
+    "edge-extension",
+    "web-extension",
+    "manifest-v3",
+    "github-extension",
+    "developer-tools",
+    "productivity",
+    "context",
+    "breadcrumb",
+    "navigation",
+    "wxt",
+    "react",
+    "typescript",
+    "shadow-dom"
+  ],
   "engines": {
     "node": ">=22.12.0",
     "pnpm": ">=10"
