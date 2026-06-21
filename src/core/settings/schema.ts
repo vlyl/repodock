@@ -20,6 +20,7 @@ export const settingsSchema = z
     position: z.enum(DOCK_POSITIONS).catch(DEFAULT_SETTINGS.position),
     density: z.enum(DENSITIES).catch(DEFAULT_SETTINGS.density),
     autoHide: z.boolean().catch(DEFAULT_SETTINGS.autoHide),
+    recentOpen: z.boolean().catch(DEFAULT_SETTINGS.recentOpen),
     showLabels: z.boolean().catch(DEFAULT_SETTINGS.showLabels),
     visible: z.boolean().catch(DEFAULT_SETTINGS.visible),
     recordHistory: z.boolean().catch(DEFAULT_SETTINGS.recordHistory),

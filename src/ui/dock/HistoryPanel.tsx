@@ -77,23 +77,13 @@ export function HistoryPanel({
   );
 
   return (
-    <div
-      className="rd-hist"
-      role="group"
-      aria-labelledby={headingId}
-      onKeyDown={(event) => {
-        if (event.key === 'Escape' && onClose) {
-          event.stopPropagation();
-          onClose();
-        }
-      }}
-    >
+    <div className="rd-hist" role="group" aria-labelledby={headingId}>
       <div className="rd-hist__header">
         <h2 className="rd-hist__title" id={headingId}>
           {t('history.title')}
         </h2>
         {onClose && (
-          <IconButton icon={<XIcon size={16} />} label={t('history.close')} onClick={onClose} />
+          <IconButton icon={<XIcon size={16} />} label={t('history.collapse')} onClick={onClose} />
         )}
       </div>
 
@@ -107,9 +97,9 @@ export function HistoryPanel({
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={(event) => {
-            // Shield GitHub's global keyboard shortcuts from text typed here,
-            // while still letting Escape close the panel.
-            if (event.key === 'Escape' && onClose) onClose();
+            // Shield GitHub's global keyboard shortcuts from text typed here;
+            // Escape clears the search rather than collapsing the panel.
+            if (event.key === 'Escape') setQuery('');
             event.stopPropagation();
           }}
         />

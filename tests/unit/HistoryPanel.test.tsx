@@ -88,12 +88,12 @@ describe('HistoryPanel', () => {
     await expectNoA11yViolations(container);
   });
 
-  it('calls onClose from the close button', async () => {
+  it('calls onClose from the collapse button', async () => {
     await seed([]);
     const user = userEvent.setup();
     let closed = false;
     render(<HistoryPanel linkTarget="current" onClose={() => (closed = true)} />);
-    await user.click(screen.getByLabelText('Close'));
+    await user.click(screen.getByLabelText('Collapse recent pages'));
     expect(closed).toBe(true);
   });
 });

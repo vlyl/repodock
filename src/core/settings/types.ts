@@ -32,6 +32,11 @@ export interface Settings {
    * hover, so it stays out of the way of GitHub's content.
    */
   autoHide: boolean;
+  /**
+   * Whether the recent-pages list is shown. It stays open until explicitly
+   * collapsed (persisted), rather than auto-closing.
+   */
+  recentOpen: boolean;
   /** Whether textual labels (e.g. "branch:") are shown. */
   showLabels: boolean;
   /** Whether the dock is currently visible. */
@@ -57,6 +62,7 @@ export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({
   position: 'left',
   density: 'comfortable',
   autoHide: false,
+  recentOpen: true,
   showLabels: true,
   visible: true,
   recordHistory: true,

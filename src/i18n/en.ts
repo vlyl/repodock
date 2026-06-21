@@ -39,6 +39,7 @@ export const en = {
   'history.openNewTab': 'Open in new tab',
   'history.current': 'Current page',
   'history.close': 'Close',
+  'history.collapse': 'Collapse recent pages',
   'history.visitsOne': '{0} visit',
   'history.visitsMany': '{0} visits',
   'history.confirmClearAll': 'Clear all history, including pinned pages?',

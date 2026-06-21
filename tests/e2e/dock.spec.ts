@@ -28,16 +28,15 @@ test.describe('content dock', () => {
     await expect(page.locator('.rd-dock__bar')).toContainText('React.js');
   });
 
-  test('opens the recent list on demand', async ({ context }) => {
+  test('shows the recent list by default and can collapse it', async ({ context }) => {
     await serveGitHub(context);
     const page = await context.newPage();
     await page.goto(FILE_URL);
 
-    // The list is not shown until requested (no overlap by default).
-    await expect(page.getByRole('heading', { name: 'Recent GitHub pages' })).toBeHidden();
-    // The brand handle is always visible and toggles the popover.
-    await page.getByRole('button', { name: 'Recent pages' }).first().click();
+    // Shown by default; stays open until explicitly collapsed.
     await expect(page.getByRole('heading', { name: 'Recent GitHub pages' })).toBeVisible();
+    await page.getByRole('button', { name: 'Collapse recent pages' }).click();
+    await expect(page.getByRole('heading', { name: 'Recent GitHub pages' })).toBeHidden();
   });
 
   test('can be hidden via the hide control', async ({ context }) => {

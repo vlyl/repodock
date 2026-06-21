@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { getSettings } from '@/core/settings';
 import type { ContextController } from '@/lib/context-controller';
 import { DockApp } from '@/ui/dock/DockApp';
 
@@ -17,17 +18,23 @@ function stubController(): ContextController {
 afterEach(cleanup);
 
 describe('DockApp', () => {
-  it('toggles the recent-pages popover from the dock handle', async () => {
+  it('shows the recent list by default and persists collapsing it', async () => {
     const user = userEvent.setup();
     render(<DockApp controller={stubController()} />);
 
-    // The brand handle is always present; it opens the recent list on demand.
-    const handle = (await screen.findAllByLabelText('Recent pages'))[0]!;
-    expect(screen.queryByRole('heading', { name: 'Recent GitHub pages' })).not.toBeInTheDocument();
-
-    await user.click(handle);
+    // Open by default.
     await waitFor(() =>
       expect(screen.getByRole('heading', { name: 'Recent GitHub pages' })).toBeInTheDocument(),
     );
+
+    // The brand handle toggles the list; collapsing it persists to settings.
+    const handle = (await screen.findAllByLabelText('Recent pages'))[0]!;
+    await user.click(handle);
+    await waitFor(() =>
+      expect(
+        screen.queryByRole('heading', { name: 'Recent GitHub pages' }),
+      ).not.toBeInTheDocument(),
+    );
+    await waitFor(async () => expect((await getSettings()).recentOpen).toBe(false));
   });
 });
