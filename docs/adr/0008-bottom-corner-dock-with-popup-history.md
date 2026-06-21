@@ -23,9 +23,13 @@ Make the dock unobtrusive and the list on-demand:
   demand** (via the logo handle or the history icon) and stacks **upward** above
   the bar, closing on Escape or an outside click. It is never shown until
   requested, so it cannot cover content unexpectedly.
-- Add an **`autoHide`** setting (default on): when idle the bar collapses to a
-  small logo handle in the corner and expands on hover, so its resting footprint
-  is tiny.
+- Add an opt-in **`autoHide`** setting (default off — the bar shows expanded):
+  when enabled, the idle bar collapses to a small logo handle and expands on
+  hover.
+- The Shadow Root host must NOT be `position: fixed` — that creates a stacking
+  context that traps the dock's high z-index inside the host, letting GitHub's
+  positioned elements paint over the dock and swallow clicks. WXT's overlay mode
+  already sizes the host to a 0×0 block (no top-of-page strip) without it.
 - Remove page-space reservation entirely (no document shifting) and the manual
   collapse setting (superseded by auto-hide).
 

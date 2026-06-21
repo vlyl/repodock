@@ -26,9 +26,9 @@ local history of the GitHub pages you've visited.
   confidence. RepoDock never guesses a branch and never shows stale context from
   the previous page. Unknown values are simply omitted.
 - **Unobtrusive by design** — a compact dock pinned to the bottom-left (default)
-  or bottom-right corner that auto-hides to a small handle until you hover it, so
-  it never pushes or covers GitHub's content. The side persists across tabs,
-  reloads, and sessions.
+  or bottom-right corner. It never pushes or covers GitHub's content, and can
+  optionally auto-hide to a small handle until you hover it. The side persists
+  across tabs, reloads, and sessions.
 - **Recent pages** — a list that pops up on demand, grouped by repository and
   sorted newest-first, drawn from the pages you visit _and_ your existing
   github.com browser history, with search, pinning, and quick navigation.

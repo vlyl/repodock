@@ -29,8 +29,8 @@ confidence, never guesses a branch, and never shows stale context from the page
 you just left. If something can't be determined, it's simply left out.
 
 Features:
-• A compact dock pinned to the bottom-left or bottom-right corner that auto-hides
-to a small handle until you hover it — it never pushes or covers GitHub's content.
+• A compact dock pinned to the bottom-left or bottom-right corner that never
+pushes or covers GitHub's content, and can optionally auto-hide to a small handle.
 • A recent-pages list that pops up on demand, grouped by repository and sorted
 newest-first, drawn from both the pages you visit and your existing github.com
 browser history, with search, pinning, and quick navigation.

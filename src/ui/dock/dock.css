@@ -6,21 +6,17 @@
  */
 
 :host {
-  /* Reset inherited styles for isolation. */
+  /*
+   * Reset inherited styles for isolation, and use display:block so the host does
+   * not generate an inline line box (which would show as a strip at the top of
+   * the page). WXT's 'overlay' mode sizes the host to 0×0 via inline styles.
+   *
+   * Do NOT make the host `position: fixed` — that creates a stacking context
+   * that would trap the dock's z-index inside the (z-index: auto) host, letting
+   * GitHub's positioned elements paint over the dock and swallow its clicks.
+   */
   all: initial;
-}
-
-/*
- * Force the host out of normal flow. As a custom (unknown) element it defaults
- * to display:inline, which would generate a ~1em line box at the top of the
- * page. `!important` beats both `all: initial` above and WXT's inline styles.
- */
-:host {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 0 !important;
-  height: 0 !important;
+  display: block;
 }
 
 .rd-root {

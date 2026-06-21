@@ -56,7 +56,7 @@ export interface Settings {
 export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({
   position: 'left',
   density: 'comfortable',
-  autoHide: true,
+  autoHide: false,
   showLabels: true,
   visible: true,
   recordHistory: true,
