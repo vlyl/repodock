@@ -1,8 +1,9 @@
 import { expect, githubBlobFixture, test } from './fixtures';
 
-// Visual baselines are created on first run (updateSnapshots: 'missing' in the
-// Playwright config) and compared thereafter with a small pixel tolerance.
-test.describe('visual', () => {
+// Visual baselines are platform-specific (Playwright suffixes them with the OS).
+// Tagged @visual so CI can skip them — only committed-platform baselines compare
+// meaningfully. Run locally with `pnpm e2e`.
+test.describe('visual @visual', () => {
   test('popup', async ({ context, extensionId }) => {
     const page = await context.newPage();
     await page.setViewportSize({ width: 360, height: 560 });

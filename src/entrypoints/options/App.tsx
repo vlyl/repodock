@@ -131,6 +131,17 @@ export function App(): ReactNode {
               />
             }
           />
+          <Field
+            label={t('options.reservePageSpace')}
+            description={t('options.reservePageSpaceHelp')}
+            control={
+              <Toggle
+                label={t('options.reservePageSpace')}
+                checked={settings.reservePageSpace}
+                onChange={(checked) => void updateSettings({ reservePageSpace: checked })}
+              />
+            }
+          />
         </Section>
 
         <Section title={t('options.section.behavior')}>

@@ -39,6 +39,20 @@ test.describe('content dock', () => {
     await expect(page.getByRole('heading', { name: 'Recent GitHub pages' })).toBeVisible();
   });
 
+  test('reserves page space for the left dock (no overlap)', async ({ context }) => {
+    await serveGitHub(context);
+    const page = await context.newPage();
+    await page.goto('https://github.com/facebook/react/blob/main/packages/react/src/React.js');
+    await page.locator('.rd-dock').waitFor();
+
+    // The default left dock with reservePageSpace shifts the page content right.
+    await expect
+      .poll(() =>
+        page.evaluate(() => parseFloat(getComputedStyle(document.documentElement).marginLeft) || 0),
+      )
+      .toBeGreaterThan(100);
+  });
+
   test('can be hidden via the hide control', async ({ context }) => {
     await serveGitHub(context);
     const page = await context.newPage();

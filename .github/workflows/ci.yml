@@ -50,6 +50,9 @@ jobs:
         with:
           name: extension-zips
           path: .output/*.zip
+          # .output is a dotfile directory; upload-artifact excludes hidden paths
+          # by default.
+          include-hidden-files: true
           if-no-files-found: error
 
   e2e:
@@ -65,7 +68,9 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build:chrome
       - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm run e2e:only
+      # Skip @visual tests in CI: screenshot baselines are platform-specific and
+      # only macOS baselines are committed. Functional + a11y E2E still run.
+      - run: pnpm exec playwright test --grep-invert @visual
       - uses: actions/upload-artifact@v4
         if: always()
         with:

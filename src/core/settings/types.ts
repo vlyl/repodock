@@ -29,6 +29,11 @@ export interface Settings {
   density: Density;
   /** Whether the dock is collapsed. Persisted, so a collapse survives reloads. */
   collapsed: boolean;
+  /**
+   * For vertical (left/right) docks, reserve page space by shifting GitHub's
+   * content instead of floating over it. No effect for top/bottom docks.
+   */
+  reservePageSpace: boolean;
   /** Whether textual labels (e.g. "branch:") are shown. */
   showLabels: boolean;
   /** Whether the dock is currently visible. */
@@ -54,6 +59,7 @@ export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({
   position: 'left',
   density: 'comfortable',
   collapsed: false,
+  reservePageSpace: true,
   showLabels: true,
   visible: true,
   recordHistory: true,

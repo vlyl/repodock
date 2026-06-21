@@ -86,6 +86,9 @@ export const en = {
   'options.collapsedHelp': 'Show only a compact summary until expanded. Persists across reloads.',
   'options.showLabels': 'Show field labels',
   'options.showLabelsHelp': 'Display prefixes such as “branch:” before values.',
+  'options.reservePageSpace': 'Reserve space (push page)',
+  'options.reservePageSpaceHelp':
+    'For left/right docks, shift GitHub’s content aside instead of overlapping it.',
   'options.theme': 'Theme',
   'options.themeHelp': 'Follow GitHub’s theme, or force light or dark.',
   'options.recordHistory': 'Record recent pages',
