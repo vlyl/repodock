@@ -21,8 +21,16 @@
   position: relative;
   display: flex;
   align-items: center;
-  /* Extra bottom gap so a sticky group header never kisses the search box. */
-  margin: 0 var(--rd-space-3) var(--rd-space-3);
+  /*
+   * Inset the search on all sides. The top margin gives it room from the panel
+   * edge in the dock (which has no header); when a header precedes it (popup),
+   * the header already supplies that spacing, so the top margin is reset below.
+   * The bottom gap keeps a sticky group header from kissing the search box.
+   */
+  margin: var(--rd-space-3);
+}
+.rd-hist__header + .rd-hist__search {
+  margin-top: 0;
 }
 .rd-hist__search-icon {
   position: absolute;
