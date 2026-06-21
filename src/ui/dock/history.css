@@ -21,7 +21,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  margin: 0 var(--rd-space-3) var(--rd-space-2);
+  /* Extra bottom gap so a sticky group header never kisses the search box. */
+  margin: 0 var(--rd-space-3) var(--rd-space-3);
 }
 .rd-hist__search-icon {
   position: absolute;
