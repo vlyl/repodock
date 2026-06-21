@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { NAV_SECTIONS } from '../context/nav';
 import {
   DEFAULT_SETTINGS,
   DENSITIES,
@@ -21,6 +22,7 @@ export const settingsSchema = z
     density: z.enum(DENSITIES).catch(DEFAULT_SETTINGS.density),
     autoHide: z.boolean().catch(DEFAULT_SETTINGS.autoHide),
     recentOpen: z.boolean().catch(DEFAULT_SETTINGS.recentOpen),
+    navSections: z.array(z.enum(NAV_SECTIONS)).catch(() => [...DEFAULT_SETTINGS.navSections]),
     showLabels: z.boolean().catch(DEFAULT_SETTINGS.showLabels),
     visible: z.boolean().catch(DEFAULT_SETTINGS.visible),
     recordHistory: z.boolean().catch(DEFAULT_SETTINGS.recordHistory),

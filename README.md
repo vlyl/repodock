@@ -33,6 +33,10 @@ local history of the GitHub pages you've visited.
   sorted newest-first, drawn from the pages you visit _and_ your existing
   github.com browser history, with search, pinning, and quick navigation.
   Browser-history import is optional.
+- **Jump anywhere** — configurable GitHub-section quick-nav buttons (Code,
+  Issues, Pull requests, Actions, Projects, Wiki, Discussions, Security,
+  Insights, Releases, Settings) right in the dock, with the current section
+  highlighted. Choose which to show in settings; all are shown by default.
 - **Keyboard friendly** — a configurable shortcut toggles the dock; Escape closes
   panels; everything is reachable by keyboard.
 - **Themed to match GitHub** — follows GitHub's light/dark theme, or force one.

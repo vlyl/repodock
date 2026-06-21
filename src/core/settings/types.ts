@@ -1,3 +1,6 @@
+import { NAV_SECTIONS } from '../context/nav';
+import type { NavSection } from '../context/nav';
+
 /** Which side the dock is anchored to (always at the bottom of that side). */
 export const DOCK_POSITIONS = ['left', 'right'] as const;
 export type DockPosition = (typeof DOCK_POSITIONS)[number];
@@ -37,6 +40,8 @@ export interface Settings {
    * collapsed (persisted), rather than auto-closing.
    */
   recentOpen: boolean;
+  /** Which GitHub repository-navigation buttons to show in the dock. */
+  navSections: NavSection[];
   /** Whether textual labels (e.g. "branch:") are shown. */
   showLabels: boolean;
   /** Whether the dock is currently visible. */
@@ -63,6 +68,7 @@ export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({
   density: 'comfortable',
   autoHide: false,
   recentOpen: true,
+  navSections: [...NAV_SECTIONS],
   showLabels: true,
   visible: true,
   recordHistory: true,

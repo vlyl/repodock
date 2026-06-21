@@ -30,6 +30,15 @@ describe('settingsSchema', () => {
   it('falls back entirely for non-object input', () => {
     expect(settingsSchema.parse('nope')).toEqual(DEFAULT_SETTINGS);
   });
+
+  it('keeps a valid navSections list and falls back on an invalid one', () => {
+    expect(
+      settingsSchema.parse({ ...DEFAULT_SETTINGS, navSections: ['issues', 'pulls'] }).navSections,
+    ).toEqual(['issues', 'pulls']);
+    expect(
+      settingsSchema.parse({ ...DEFAULT_SETTINGS, navSections: ['issues', 'bogus'] }).navSections,
+    ).toEqual(DEFAULT_SETTINGS.navSections);
+  });
 });
 
 describe('historyStateSchema', () => {

@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import type { ReactNode } from 'react';
-import { CheckIcon, CopyIcon, EyeClosedIcon, GearIcon, HistoryIcon } from '@primer/octicons-react';
+import { CheckIcon, CopyIcon, EyeClosedIcon, HistoryIcon, ToolsIcon } from '@primer/octicons-react';
 import type { GitHubContext } from '@/core/context';
 import { buildSegments, contextSummary } from '@/core/context';
 import { canonicalKeyFor } from '@/core/context/github-url';
@@ -8,6 +8,7 @@ import type { Settings } from '@/core/settings';
 import { t } from '@/i18n';
 import { IconButton } from '@/ui/components/controls';
 import { useCopy } from '@/ui/hooks/useCopy';
+import { DockNav } from './DockNav';
 import { DockSegments } from './DockSegments';
 import { Diagnostics } from './Diagnostics';
 import { HistoryPanel } from './HistoryPanel';
@@ -70,6 +71,8 @@ export function Dock({
         </div>
       )}
 
+      {context?.repository && <DockNav context={context} sections={settings.navSections} />}
+
       <div className="rd-dock__bar">
         <button
           type="button"
@@ -109,7 +112,7 @@ export function Dock({
             onClick={onToggleHistory}
           />
           <IconButton
-            icon={<GearIcon size={16} />}
+            icon={<ToolsIcon size={16} />}
             label={t('dock.settings')}
             onClick={onOpenSettings}
           />

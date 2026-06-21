@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 import { ArrowLeftIcon, ArrowRightIcon } from '@primer/octicons-react';
+import type { NavSection } from '@/core/context';
+import { NAV_SECTIONS } from '@/core/context';
 import { clearAllHistory } from '@/core/history';
 import type { Density, DockPosition, LinkTarget, ThemeMode } from '@/core/settings';
 import {
@@ -9,6 +11,7 @@ import {
   updateSettings,
 } from '@/core/settings';
 import { t } from '@/i18n';
+import type { MessageKey } from '@/i18n';
 import {
   Field,
   NumberField,
@@ -29,6 +32,20 @@ const DENSITY_OPTIONS: { value: Density; label: string }[] = [
   { value: 'comfortable', label: t('density.comfortable') },
   { value: 'compact', label: t('density.compact') },
 ];
+
+const NAV_SECTION_LABEL: Record<NavSection, MessageKey> = {
+  code: 'nav.code',
+  issues: 'nav.issues',
+  pulls: 'nav.pulls',
+  actions: 'nav.actions',
+  projects: 'nav.projects',
+  wiki: 'nav.wiki',
+  discussions: 'nav.discussions',
+  security: 'nav.security',
+  insights: 'nav.insights',
+  releases: 'nav.releases',
+  settings: 'nav.settings',
+};
 
 const THEME_OPTIONS: { value: ThemeMode; label: string }[] = [
   { value: 'system', label: t('theme.system') },
@@ -129,6 +146,29 @@ export function App(): ReactNode {
               />
             }
           />
+        </Section>
+
+        <Section title={t('options.section.navigation')}>
+          <p className="rd-options__note">{t('options.navigationHelp')}</p>
+          {NAV_SECTIONS.map((section) => (
+            <Field
+              key={section}
+              label={t(NAV_SECTION_LABEL[section])}
+              control={
+                <Toggle
+                  label={t(NAV_SECTION_LABEL[section])}
+                  checked={settings.navSections.includes(section)}
+                  onChange={(checked) =>
+                    void updateSettings({
+                      navSections: checked
+                        ? [...settings.navSections, section]
+                        : settings.navSections.filter((value) => value !== section),
+                    })
+                  }
+                />
+              }
+            />
+          ))}
         </Section>
 
         <Section title={t('options.section.behavior')}>

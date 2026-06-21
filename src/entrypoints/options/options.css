@@ -76,6 +76,12 @@ body {
   padding: 0 var(--rd-space-4);
 }
 
+.rd-options__note {
+  margin: var(--rd-space-3) 0 var(--rd-space-1);
+  color: var(--rd-fg-muted);
+  font-size: var(--rd-font-size);
+}
+
 .rd-options__rows .rd-field {
   border-bottom: 1px solid var(--rd-border-muted);
 }

@@ -31,3 +31,5 @@ export { extractDomFacts, cleanItemTitle } from './dom';
 export type { DomFacts } from './dom';
 export { buildSegments, contextSummary, contextTitle, formatLineRange } from './present';
 export type { BuildSegmentsOptions, ContextSegment } from './present';
+export { activeNavSection, navSectionUrl, NAV_SECTIONS } from './nav';
+export type { NavSection } from './nav';
