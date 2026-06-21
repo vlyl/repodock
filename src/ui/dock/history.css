@@ -22,12 +22,11 @@
   display: flex;
   align-items: center;
   /*
-   * Inset the search on all sides. The top margin gives it room from the panel
-   * edge in the dock (which has no header); when a header precedes it (popup),
-   * the header already supplies that spacing, so the top margin is reset below.
-   * The bottom gap keeps a sticky group header from kissing the search box.
+   * Inset the search. The top margin gives it room from the panel edge in the
+   * dock (which has no header); when a header precedes it (popup), the header
+   * already supplies that spacing, so the top margin is reset below.
    */
-  margin: var(--rd-space-3);
+  margin: var(--rd-space-3) var(--rd-space-3) var(--rd-space-2);
 }
 .rd-hist__header + .rd-hist__search {
   margin-top: 0;
