@@ -67,6 +67,53 @@ Developer Tools
 
 No data is collected, transmitted, or sold. See the bundled privacy policy.
 
+## Chrome Web Store — "Privacy practices" tab answers
+
+Copy these into the Privacy practices tab. (Manifest permissions: `storage`,
+`activeTab`, `history`; host access to `github.com` via the content script.)
+
+**Single purpose**
+
+> RepoDock shows your current GitHub page context — repository, branch/tag,
+> location, file path, and line range — in a persistent on-page dock, with
+> one-click navigation and a private, local list of recently visited GitHub pages.
+
+**Permission justifications**
+
+- **storage** — Save the user's settings (synced) and their local recent-page
+  history (stored locally, never synced).
+- **activeTab** — Let the toolbar popup read the active tab's URL/context when the
+  user opens the popup, to show a context preview for that tab.
+- **history** — Read the user's existing github.com history entries (only) to
+  populate the recent-pages list, so pages visited before install or in other
+  tabs are available. Never reads non-github.com entries, never modifies or
+  deletes history, and is user-toggleable in the options page.
+- **Host access (`https://github.com/*`)** — RepoDock runs only on github.com to
+  read the page URL and structural markup needed to resolve and display the
+  context dock. It accesses no other sites.
+
+**Are you using remote code?** No — all code is bundled in the package.
+
+**Data usage** — Certify all three compliance statements (all true): data is not
+sold or transferred to third parties; not used for any purpose unrelated to the
+single purpose; not used for creditworthiness or lending.
+
+Data types collected: **none are transmitted off the device.** RepoDock makes no
+network requests and stores everything locally, so it does not "collect" data
+under Chrome's definition (which is transmission off the device). The `history`
+permission reads github.com history locally only; this is explained in the
+permission justification above and the privacy policy.
+
+**Privacy policy URL** — `https://github.com/vlyl/repodock/blob/main/docs/privacy.md`
+
+## Screenshots
+
+Store-ready 1280×800 screenshots live in [`docs/images/store/`](images/store):
+
+1. `01-context-and-history.png` — context bar + the grouped, color-tinted recent list.
+2. `02-context-bar.png` — the always-visible context bar and section quick-nav.
+3. `03-pull-request.png` — pull-request context with the recent list open.
+
 ## Firefox (AMO) notes
 
 The build is Manifest V3 with an explicit add-on id
