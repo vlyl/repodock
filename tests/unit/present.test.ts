@@ -1,7 +1,29 @@
 import { describe, expect, it } from 'vitest';
 import { resolveContext } from '@/core/context';
-import { buildSegments, contextSummary, contextTitle } from '@/core/context/present';
+import { buildSegments, contextSummary, contextTitle, historyKeyFor } from '@/core/context/present';
 import { makeDoc } from '../helpers/dom';
+
+describe('historyKeyFor', () => {
+  const keyOf = (url: string) => historyKeyFor(resolveContext({ url }));
+  const PR = 'https://github.com/o/r/pull/42';
+
+  it('collapses a pull request and all its sub-tabs to one key', () => {
+    expect(keyOf(PR)).toBe(PR);
+    expect(keyOf(`${PR}/files`)).toBe(PR);
+    expect(keyOf(`${PR}/commits`)).toBe(PR);
+    expect(keyOf(`${PR}/checks`)).toBe(PR);
+    expect(keyOf(`${PR}/files#diff-abc`)).toBe(PR);
+  });
+
+  it('keeps distinct keys for different PRs, the PR list, and non-PR pages', () => {
+    expect(keyOf(`${PR}`)).not.toBe(keyOf('https://github.com/o/r/pull/43'));
+    expect(keyOf('https://github.com/o/r/pulls')).toBe('https://github.com/o/r/pulls');
+    expect(keyOf('https://github.com/o/r/issues/42')).toBe('https://github.com/o/r/issues/42');
+    expect(keyOf('https://github.com/o/r/blob/main/a.ts#L5')).toBe(
+      'https://github.com/o/r/blob/main/a.ts',
+    );
+  });
+});
 
 // A realistic file page: the DOM confirms `main` is a branch, which the URL
 // alone cannot know.

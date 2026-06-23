@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react';
 import { PersonIcon } from '@primer/octicons-react';
 import type { GitHubContext } from '@/core/context';
-import { buildSegments } from '@/core/context';
-import { canonicalKeyFor } from '@/core/context/github-url';
+import { buildSegments, historyKeyFor } from '@/core/context';
 import type { Settings } from '@/core/settings';
 import { t } from '@/i18n';
 import { IconButton } from '@/ui/components/controls';
@@ -35,7 +34,7 @@ export function Dock({
 }: DockProps): ReactNode {
   const segments = context ? buildSegments(context, { showLabels: settings.showLabels }) : [];
   const hasContext = context !== null && segments.length > 0;
-  const currentKey = context ? canonicalKeyFor(context.safeUrl) : undefined;
+  const currentKey = context ? historyKeyFor(context) : undefined;
   const showDiagnostics = settings.developerDiagnostics && context !== null;
 
   return (

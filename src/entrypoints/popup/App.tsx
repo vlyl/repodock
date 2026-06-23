@@ -8,7 +8,7 @@ import {
   HistoryIcon,
 } from '@primer/octicons-react';
 import { browser } from '#imports';
-import { buildSegments, canonicalKeyFor, contextTitle } from '@/core/context';
+import { buildSegments, contextTitle, historyKeyFor } from '@/core/context';
 import type { DockPosition, Density } from '@/core/settings';
 import { updateSettings } from '@/core/settings';
 import { t } from '@/i18n';
@@ -54,7 +54,7 @@ export function App(): ReactNode {
       >
         <div className="rd-popup__history">
           <HistoryPanel
-            currentKey={context ? canonicalKeyFor(context.safeUrl) : undefined}
+            currentKey={context ? historyKeyFor(context) : undefined}
             linkTarget={settings.historyLinkTarget}
             importBrowserHistory={settings.importBrowserHistory}
             involvedOnly={settings.historyInvolvedOnly}

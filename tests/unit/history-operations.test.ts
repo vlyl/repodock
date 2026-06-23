@@ -52,6 +52,27 @@ describe('entryFromContext', () => {
   });
 });
 
+describe('entryFromContext — pull request sub-tabs', () => {
+  const PR = 'https://github.com/o/r/pull/7';
+
+  it('keys and links a PR sub-tab to the PR itself', () => {
+    const entry = entryFromContext(resolveContext({ url: `${PR}/files` }), 1)!;
+    expect(entry.key).toBe(PR);
+    expect(entry.safeUrl).toBe(PR);
+    expect(entry.sectionLabel).toBeUndefined();
+  });
+
+  it('merges visits to a PR across its sub-tabs into one entry', () => {
+    let state: HistoryState = { entries: [] };
+    for (const url of [PR, `${PR}/files`, `${PR}/commits`, `${PR}/files`]) {
+      state = recordVisit(state, resolveContext({ url }), 1, 100);
+    }
+    expect(state.entries).toHaveLength(1);
+    expect(state.entries[0]!.key).toBe(PR);
+    expect(state.entries[0]!.visitCount).toBe(4);
+  });
+});
+
 describe('upsertVisit', () => {
   it('inserts a new entry at the front', () => {
     const state: HistoryState = { entries: [makeEntry({ key: '/a' })] };

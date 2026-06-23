@@ -30,7 +30,13 @@ export type { UrlFacts } from './github-url';
 export { resolveContext } from './resolve';
 export { extractDomFacts, cleanItemTitle, viewerIsParticipant, viewerLoginFromDom } from './dom';
 export type { DomFacts } from './dom';
-export { buildSegments, contextSummary, contextTitle, formatLineRange } from './present';
+export {
+  buildSegments,
+  contextSummary,
+  contextTitle,
+  formatLineRange,
+  historyKeyFor,
+} from './present';
 export type { BuildSegmentsOptions, ContextSegment } from './present';
 export { activeNavSection, navSectionUrl, NAV_SECTIONS } from './nav';
 export type { NavSection } from './nav';

@@ -1,4 +1,18 @@
+import { canonicalKeyFor } from './github-url';
 import type { GitHubContext, LineRange, RefType } from './types';
+
+/**
+ * The history dedup key for a context. A pull request's sub-tabs (Conversation,
+ * Files changed, Commits, Checks, …) collapse to a single key for the PR itself,
+ * so they merge into one recent-list entry; everything else keys on its
+ * canonical URL (sans line anchor).
+ */
+export function historyKeyFor(ctx: GitHubContext): string {
+  if (ctx.repository && ctx.item?.type === 'pull') {
+    return `${ctx.origin}/${ctx.repository.owner}/${ctx.repository.name}/pull/${ctx.item.id}`;
+  }
+  return canonicalKeyFor(ctx.safeUrl);
+}
 
 /** A structured, optionally linkable piece of the context for the dock UI. */
 export interface ContextSegment {

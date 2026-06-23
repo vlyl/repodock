@@ -43,6 +43,9 @@ Initial release.
 - Grouped recent-list entries show the page-specific title (PR/issue title and
   number, file path, …) instead of the repeated `owner/repo` prefix that the
   group header already shows.
+- A pull request's sub-tabs (Conversation, Files changed, Commits, Checks, …)
+  collapse into a single recent-list entry for the PR, instead of one entry per
+  tab.
 - Toolbar popup with quick toggles and a context preview, plus a full options
   page with appearance, behavior, history, shortcuts, advanced, and data
   controls.
