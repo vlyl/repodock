@@ -4,6 +4,7 @@ import type { HistoryEntry, HistoryState } from '@/core/history';
 import {
   clearUnpinned,
   entryFromContext,
+  entryRelativeTitle,
   groupByRepository,
   isInvolvedEntry,
   mergeHistories,
@@ -166,6 +167,29 @@ describe('mergeHistories', () => {
     const merged = mergeHistories(owned, extra);
     expect(merged.map((e) => e.key).sort()).toEqual(['/x', '/y']);
     expect(merged.find((e) => e.key === '/x')!.title).toBe('owned');
+  });
+});
+
+describe('entryRelativeTitle', () => {
+  it('strips the owner/repo prefix that contextTitle adds (PR page)', () => {
+    const entry = entryFromContext(resolveContext({ url: 'https://github.com/o/r/pull/5' }), 1)!;
+    expect(entry.title.startsWith('o/r')).toBe(true);
+    expect(entryRelativeTitle(entry)).toBe('Pull Request #5');
+  });
+
+  it('strips the prefix for file entries, leaving the path', () => {
+    const entry = entryFromContext(
+      resolveContext({ url: 'https://github.com/o/r/blob/main/src/A.ts' }),
+      1,
+    )!;
+    expect(entryRelativeTitle(entry)).toBe('src/A.ts');
+  });
+
+  it('keeps the title when there is no prefix, and never returns empty', () => {
+    expect(entryRelativeTitle(makeEntry({ key: '/x', title: 'Standalone', nwo: 'o/r' }))).toBe(
+      'Standalone',
+    );
+    expect(entryRelativeTitle(makeEntry({ key: '/y', title: 'o/r', nwo: 'o/r' }))).toBe('o/r');
   });
 });
 

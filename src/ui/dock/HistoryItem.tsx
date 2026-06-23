@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { LinkExternalIcon, PinIcon, TrashIcon } from '@primer/octicons-react';
 import type { HistoryEntry } from '@/core/history';
+import { entryRelativeTitle } from '@/core/history';
 import type { LinkTarget } from '@/core/settings';
 import { t } from '@/i18n';
 import { formatRelativeTime } from '@/lib/time';
@@ -11,6 +12,8 @@ export interface HistoryItemProps {
   isCurrent: boolean;
   linkTarget: LinkTarget;
   now: number;
+  /** Drop the repo prefix from the title (the entry is shown under a repo header). */
+  relativeTitle?: boolean;
   /** Whether the remove (trash) action is available (false for browser-only entries). */
   removable?: boolean;
   onTogglePin: (entry: HistoryEntry) => void;
@@ -22,10 +25,12 @@ export function HistoryItem({
   isCurrent,
   linkTarget,
   now,
+  relativeTitle = false,
   removable = true,
   onTogglePin,
   onRemove,
 }: HistoryItemProps): ReactNode {
+  const title = relativeTitle ? entryRelativeTitle(entry) : entry.title;
   const visits =
     entry.visitCount === 1 ? t('history.visitsOne', 1) : t('history.visitsMany', entry.visitCount);
   const meta = [entry.locationLabel, formatRelativeTime(entry.lastVisited, now), visits];
@@ -39,7 +44,7 @@ export function HistoryItem({
         rel={linkTarget === 'new' ? 'noopener noreferrer' : undefined}
         title={entry.safeUrl}
       >
-        <span className="rd-hist-item__title">{entry.title}</span>
+        <span className="rd-hist-item__title">{title}</span>
         <span className="rd-hist-item__meta">
           {isCurrent && <span className="rd-hist-item__badge">{t('history.current')}</span>}
           {meta.join(' · ')}

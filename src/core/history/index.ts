@@ -4,6 +4,7 @@ export { historyEntrySchema, historyStateSchema } from './schema';
 export {
   clearUnpinned,
   entryFromContext,
+  entryRelativeTitle,
   groupByRepository,
   isInvolvedEntry,
   isRecordable,

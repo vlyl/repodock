@@ -49,6 +49,18 @@ describe('HistoryPanel', () => {
     expect(screen.getByText('Vue core file')).toBeInTheDocument();
   });
 
+  it('drops the repo prefix from grouped entry titles', async () => {
+    await seed([
+      entry({ key: '/o/r/pull/5', title: 'o/r · Fix the bug (#5)', nwo: 'o/r', lastVisited: 5 }),
+    ]);
+    render(<HistoryPanel linkTarget="current" />);
+
+    // The distinguishing part shows; the repo name stays only in the group header.
+    await waitFor(() => expect(screen.getByText('Fix the bug (#5)')).toBeInTheDocument());
+    expect(screen.queryByText('o/r · Fix the bug (#5)')).not.toBeInTheDocument();
+    expect(screen.getByText('o/r')).toBeInTheDocument();
+  });
+
   it('filters by search', async () => {
     await seed([
       entry({ key: '/facebook/react', title: 'facebook react', nwo: 'facebook/react' }),

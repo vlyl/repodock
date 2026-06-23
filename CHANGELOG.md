@@ -40,6 +40,9 @@ Initial release.
 - Optional "Sticky header" that pins GitHub's own repository header (name and nav
   tabs) to the top while scrolling. Off by default; the only feature that styles
   GitHub's page, injected as a single opt-in, gated stylesheet.
+- Grouped recent-list entries show the page-specific title (PR/issue title and
+  number, file path, …) instead of the repeated `owner/repo` prefix that the
+  group header already shows.
 - Toolbar popup with quick toggles and a context preview, plus a full options
   page with appearance, behavior, history, shortcuts, advanced, and data
   controls.

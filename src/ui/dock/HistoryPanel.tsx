@@ -86,13 +86,14 @@ export function HistoryPanel({
     void removeHistoryEntry(entry.key);
   };
 
-  const renderEntry = (entry: HistoryEntry): ReactNode => (
+  const renderEntry = (entry: HistoryEntry, relativeTitle = false): ReactNode => (
     <HistoryItem
       key={entry.key}
       entry={entry}
       isCurrent={entry.key === currentKey}
       linkTarget={linkTarget}
       now={now}
+      relativeTitle={relativeTitle}
       removable={ownedKeys.has(entry.key)}
       onTogglePin={togglePin}
       onRemove={remove}
@@ -142,7 +143,7 @@ export function HistoryPanel({
         {pinned.length > 0 && (
           <div className="rd-hist__section">
             <h3 className="rd-hist__section-title">{t('history.pinnedSection')}</h3>
-            <ul className="rd-hist__list">{pinned.map(renderEntry)}</ul>
+            <ul className="rd-hist__list">{pinned.map((entry) => renderEntry(entry))}</ul>
           </div>
         )}
         {groups.map((group) => {
@@ -159,7 +160,7 @@ export function HistoryPanel({
                 <span className="rd-hist__section-label">{group.label}</span>
                 <span className="rd-hist__section-count">{group.entries.length}</span>
               </h3>
-              <ul className="rd-hist__list">{visible.map(renderEntry)}</ul>
+              <ul className="rd-hist__list">{visible.map((entry) => renderEntry(entry, true))}</ul>
               {remaining > 0 && (
                 <button type="button" className="rd-hist__more" onClick={() => showMore(group.key)}>
                   {t('history.showMore', Math.min(PAGE_SIZE, remaining))}
