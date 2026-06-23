@@ -19,14 +19,21 @@ export default defineContentScript({
   cssInjectionMode: 'ui',
   runAt: 'document_end',
   async main(ctx) {
+    let stickyEnabled = false;
     const applySettings = (settings: Awaited<ReturnType<typeof getSettings>>): void => {
       setDiagnosticsEnabled(settings.developerDiagnostics);
+      stickyEnabled = settings.stickyHeader;
       setStickyHeader(document, settings.stickyHeader);
     };
     void getSettings().then(applySettings);
     watchSettings(applySettings);
 
     const controller = new ContextController();
+    // Re-measure GitHub's header after client-side navigation: its height differs
+    // between repo and non-repo pages and it may be re-rendered.
+    controller.subscribe(() => {
+      if (stickyEnabled) setStickyHeader(document, true);
+    });
     controller.start();
     // Let the popup query the live, DOM-refined context for this tab.
     onContextRequest(() => controller.getContext());

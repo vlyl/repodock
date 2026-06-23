@@ -12,8 +12,8 @@ describe('sticky header', () => {
     ensureStickyHeaderStyle(document);
     const styles = document.querySelectorAll('#repodock-sticky-header');
     expect(styles).toHaveLength(1);
-    expect(styles[0]!.textContent).toContain('header.AppHeader');
-    expect(styles[0]!.textContent).toContain('position: sticky');
+    expect(styles[0]!.textContent).toContain('header.GlobalNav');
+    expect(styles[0]!.textContent).toContain('position: fixed');
   });
 
   it('toggles the gating attribute on the html element', () => {
