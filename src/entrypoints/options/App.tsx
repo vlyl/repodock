@@ -175,6 +175,20 @@ export function App(): ReactNode {
           ))}
         </Section>
 
+        <Section title={t('options.section.github')}>
+          <Field
+            label={t('options.stickyHeader')}
+            description={t('options.stickyHeaderHelp')}
+            control={
+              <Toggle
+                label={t('options.stickyHeader')}
+                checked={settings.stickyHeader}
+                onChange={(checked) => void updateSettings({ stickyHeader: checked })}
+              />
+            }
+          />
+        </Section>
+
         <Section title={t('options.section.behavior')}>
           <Field
             label={t('options.autoHide')}

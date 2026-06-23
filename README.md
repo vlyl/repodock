@@ -45,6 +45,9 @@ local history of the GitHub pages you've visited.
   Issues, Pull requests, Actions, Projects, Wiki, Discussions, Security,
   Insights, Releases, Settings) right in the dock, with the current section
   highlighted. Choose which to show in settings; all are shown by default.
+- **Sticky GitHub header (optional)** — pin GitHub's own repository header (the
+  name and the Code / Issues / Pull requests nav) to the top so it stays visible
+  while you scroll. Off by default; toggle it from the popup or options.
 - **Keyboard friendly** — a configurable shortcut toggles the dock; Escape closes
   panels; everything is reachable by keyboard.
 - **Themed to match GitHub** — follows GitHub's light/dark theme, or force one.

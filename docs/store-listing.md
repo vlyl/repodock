@@ -34,6 +34,8 @@ pushes or covers GitHub's content, and can optionally auto-hide to a small handl
 • A recent-pages list that pops up on demand, grouped by repository and sorted
 newest-first, drawn from both the pages you visit and your existing github.com
 browser history, with search, pinning, and quick navigation.
+• An optional "sticky header" that pins GitHub's own repository header (name and
+nav tabs) to the top so it stays visible while you scroll (off by default).
 • A configurable keyboard shortcut to toggle the dock.
 • Follows GitHub's light/dark theme, or force one.
 • Compact and comfortable density.

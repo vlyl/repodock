@@ -44,6 +44,8 @@ export interface Settings {
   navSections: NavSection[];
   /** Whether textual labels (e.g. "branch:") are shown. */
   showLabels: boolean;
+  /** Pin GitHub's own page header (repo nav) to the top while scrolling. */
+  stickyHeader: boolean;
   /** Whether the dock is currently visible. */
   visible: boolean;
   /** Whether GitHub page visits are recorded to history. */
@@ -72,6 +74,7 @@ export const DEFAULT_SETTINGS: Readonly<Settings> = Object.freeze({
   recentOpen: true,
   navSections: [...NAV_SECTIONS],
   showLabels: true,
+  stickyHeader: false,
   visible: true,
   recordHistory: true,
   importBrowserHistory: true,

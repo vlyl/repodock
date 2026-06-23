@@ -49,6 +49,15 @@ describe('settingsSchema', () => {
         .historyInvolvedOnly,
     ).toBe(false);
   });
+
+  it('round-trips stickyHeader and falls back on a bad value', () => {
+    expect(settingsSchema.parse({ ...DEFAULT_SETTINGS, stickyHeader: true }).stickyHeader).toBe(
+      true,
+    );
+    expect(settingsSchema.parse({ ...DEFAULT_SETTINGS, stickyHeader: 'x' }).stickyHeader).toBe(
+      false,
+    );
+  });
 });
 
 describe('historyStateSchema', () => {

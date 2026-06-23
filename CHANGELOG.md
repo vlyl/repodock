@@ -37,6 +37,9 @@ Initial release.
 - Configurable repository-section quick-nav buttons (Code, Issues, Pull requests,
   Actions, Projects, Wiki, Discussions, Security, Insights, Releases, Settings)
   in the dock, with the current section highlighted; all shown by default.
+- Optional "Sticky header" that pins GitHub's own repository header (name and nav
+  tabs) to the top while scrolling. Off by default; the only feature that styles
+  GitHub's page, injected as a single opt-in, gated stylesheet.
 - Toolbar popup with quick toggles and a context preview, plus a full options
   page with appearance, behavior, history, shortcuts, advanced, and data
   controls.

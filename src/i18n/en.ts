@@ -74,6 +74,7 @@ export const en = {
   'popup.position': 'Dock position',
   'popup.density': 'Density',
   'popup.recordHistory': 'Record history',
+  'popup.stickyHeader': 'Sticky GitHub header',
   'popup.openOptions': 'All settings',
   'popup.openHistory': 'Recent pages',
   'popup.notGitHub': 'Open a GitHub page to see its context.',
@@ -86,6 +87,10 @@ export const en = {
   'options.section.appearance': 'Appearance',
   'options.section.navigation': 'Repository navigation',
   'options.navigationHelp': 'Choose which GitHub section buttons appear in the dock.',
+  'options.section.github': 'GitHub page',
+  'options.stickyHeader': 'Sticky header',
+  'options.stickyHeaderHelp':
+    "Pin GitHub's own header — the repository name and the Code / Issues / Pull requests nav — to the top so it stays visible while you scroll.",
   'options.section.behavior': 'Behavior',
   'options.section.history': 'History',
   'options.section.data': 'Data & privacy',

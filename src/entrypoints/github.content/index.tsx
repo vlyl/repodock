@@ -5,6 +5,7 @@ import { getSettings, watchSettings } from '@/core/settings';
 import { ContextController } from '@/lib/context-controller';
 import { setDiagnosticsEnabled } from '@/lib/logger';
 import { onContextRequest } from '@/lib/messaging';
+import { setStickyHeader } from '@/lib/sticky-header';
 import { DockApp } from '@/ui/dock/DockApp';
 import '@/ui/theme/tokens.css';
 import '@/ui/components/controls.css';
@@ -18,8 +19,12 @@ export default defineContentScript({
   cssInjectionMode: 'ui',
   runAt: 'document_end',
   async main(ctx) {
-    void getSettings().then((settings) => setDiagnosticsEnabled(settings.developerDiagnostics));
-    watchSettings((settings) => setDiagnosticsEnabled(settings.developerDiagnostics));
+    const applySettings = (settings: Awaited<ReturnType<typeof getSettings>>): void => {
+      setDiagnosticsEnabled(settings.developerDiagnostics);
+      setStickyHeader(document, settings.stickyHeader);
+    };
+    void getSettings().then(applySettings);
+    watchSettings(applySettings);
 
     const controller = new ContextController();
     controller.start();

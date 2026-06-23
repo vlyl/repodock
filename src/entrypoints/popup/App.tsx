@@ -149,6 +149,16 @@ export function App(): ReactNode {
             />
           }
         />
+        <Field
+          label={t('popup.stickyHeader')}
+          control={
+            <Toggle
+              checked={settings.stickyHeader}
+              onChange={(checked) => void updateSettings({ stickyHeader: checked })}
+              label={t('popup.stickyHeader')}
+            />
+          }
+        />
       </section>
 
       <p className="rd-popup__shortcut">

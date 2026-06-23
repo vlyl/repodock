@@ -24,6 +24,7 @@ export const settingsSchema = z
     recentOpen: z.boolean().catch(DEFAULT_SETTINGS.recentOpen),
     navSections: z.array(z.enum(NAV_SECTIONS)).catch(() => [...DEFAULT_SETTINGS.navSections]),
     showLabels: z.boolean().catch(DEFAULT_SETTINGS.showLabels),
+    stickyHeader: z.boolean().catch(DEFAULT_SETTINGS.stickyHeader),
     visible: z.boolean().catch(DEFAULT_SETTINGS.visible),
     recordHistory: z.boolean().catch(DEFAULT_SETTINGS.recordHistory),
     importBrowserHistory: z.boolean().catch(DEFAULT_SETTINGS.importBrowserHistory),
